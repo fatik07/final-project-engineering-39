@@ -1,0 +1,30 @@
+.navbar-custom {
+  background-color: #fafafa;
+}
+
+.navbar-brand-custom {
+  font-size: 1.5rem;
+  font-weight: semi-bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.text-ladang {
+  color: #26c32d;
+}
+
+.text-materi {
+  color: #fe7558;
+}
+
+.btn-success-custom {
+  background-color: #319d8e;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.btn-success-custom:hover {
+  background-color: #248679;
+  border-radius: 10px;
+  color: #fff;
+}
