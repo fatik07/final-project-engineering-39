@@ -1,0 +1,61 @@
+.container-custom {
+  margin-top: 100px;
+}
+
+.highlight {
+  margin-top: 100px;
+}
+
+.highlight h1 {
+  font-size: 2.5rem;
+}
+
+.highlight p {
+  margin-top: 50px;
+}
+
+.img-header img {
+  margin-top: 20px;
+  margin-left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.start-learning {
+  background-color: #fe7558;
+  width: 220px;
+  border-radius: 20px;
+  text-align: center;
+  padding: 12px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.start-learning a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.discover {
+  width: 150px;
+  text-align: center;
+  margin-top: 28px;
+}
+
+.discover a {
+  text-decoration: none;
+  border: 1px solid #181818;
+  border-radius: 20px;
+  padding: 12px 40px;
+  color: #181818;
+}
+
+/* media screen */
+@media screen and (min-width: 1400px) {
+  .img-header img {
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 80%;
+    height: auto;
+  }
+}
