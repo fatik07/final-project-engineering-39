@@ -1,0 +1,10 @@
+.container-custom {
+  margin-top: 100px;
+}
+
+.img-sponsor img {
+  width: 120px;
+  height: auto;
+  filter: gray;
+  -webkit-filter: grayscale(1);
+}
