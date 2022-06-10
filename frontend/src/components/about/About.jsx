@@ -1,14 +1,18 @@
 import React from "react";
-import "./Header.css";
-import img from "../../assets/img/img-header.png";
+import img from "../../assets/img/img-about.png";
+import "./About.css";
 
-export default function Header() {
+export default function About() {
   return (
     <div className="container-custom ms-5 me-5">
       <div className="row">
-        <div className="highlight col-12 col-lg-6 col-md-12 col-sm-12">
-          <h1>Make it Simple</h1>
-          <p>
+        <div className="col-12 col-lg-7 col-md-12 col-sm-12 img-about">
+          <img src={img} alt="ini adalah gambar img about" />
+        </div>
+        <div className="col-12 col-lg-5 col-md-12 col-sm-12 text-about">
+          <h5>About Us</h5>
+          <h1>Welcome to Ladang Materi</h1>
+          <p className="mt-4">
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa
             similique tenetur atque sequi. Vel ipsa eos esse, amet error tempora
             voluptatibus, laboriosam accusamus dolore maxime, quisquam modi
@@ -17,21 +21,13 @@ export default function Header() {
             Vel ipsa eos esse, amet error tempora voluptatibus, laboriosam
             accusamus dolore maxime, quisquam modi provident quidem dignissimos
           </p>
-          <div className="row button-header">
+          <div className="row button-about">
             <div className="col-lg-5 col-md-5 col-sm-12">
-              <div className="start-learning">
-                <a href="#">Start Learning</a>
-              </div>
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12">
-              <div className="discover">
-                <a href="#">Discover</a>
+              <div className="learn-more">
+                <a href="#">Learn More...</a>
               </div>
             </div>
           </div>
-        </div>
-        <div className="img-header col-12 col-lg-6 col-md-12 col-sm-12 d-flex justify-content-end">
-          <img src={img} alt="ini adalah gambar img header" />
         </div>
       </div>
     </div>
