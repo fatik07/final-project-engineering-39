@@ -5,7 +5,7 @@ function login() {
   return (
     <div className="main-login">
       <div className="login-contain"></div>
-      Log in To Your Account
+      Log in To Your
     </div>
   );
 }
