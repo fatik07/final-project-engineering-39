@@ -2,6 +2,16 @@ import React from "react";
 import "./Navbar.css";
 
 export default function Navbar() {
+  // effect shadow navbar
+  window.addEventListener("scroll", (e) => {
+    const nav = document.querySelector(".navbar-custom");
+    if (window.pageYOffset > 80) {
+      nav.classList.add("add-shadow");
+    } else {
+      nav.classList.remove("add-shadow");
+    }
+  });
+
   return (
     <>
       <nav className="navbar navbar-expand-lg py-3 fixed-top navbar-custom">

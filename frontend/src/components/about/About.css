@@ -1,0 +1,28 @@
+.img-about img {
+  width: 75%;
+  height: auto;
+  /* margin-right: 300px; */
+}
+
+.text-about h5 {
+  color: #fe7558;
+}
+
+.learn-more {
+  background-color: #fe7558;
+  width: 150px;
+  border-radius: 20px;
+  text-align: center;
+  padding: 12px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.learn-more:hover {
+  background-color: #d1543b;
+}
+
+.learn-more a {
+  color: #fff;
+  text-decoration: none;
+}
