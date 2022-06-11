@@ -1,0 +1,25 @@
+.text-ladang1{
+    color: #26c32d;
+    font-size:2em;
+}
+
+.text-materi1{
+    color: #fe7558;
+    font-size:2em;
+}
+
+.col h4{
+    margin-top: 10px;
+    float: right;
+    font-size: 2em;
+}
+
+.img-con img{
+    width: 450px;
+    height: 450px;
+}
+
+.buttonRegister{
+    text-align: center;
+    margin-bottom: 50px;
+}
