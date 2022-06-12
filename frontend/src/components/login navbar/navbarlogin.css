@@ -1,7 +1,14 @@
-.col h4 {
-  margin-top: 10px;
+.main-login h1 {
+  text-align: left;
+  margin-top: 100px;
+  margin-left: 10px;
   float: right;
   font-size: 2em;
+}
+.border{
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .buttonLogin {
