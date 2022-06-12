@@ -1,0 +1,10 @@
+.col h4 {
+  margin-top: 10px;
+  float: right;
+  font-size: 2em;
+}
+
+.buttonLogin {
+  text-align: left;
+  margin-bottom: 50px;
+}
