@@ -22,7 +22,7 @@ export default function About() {
             accusamus dolore maxime, quisquam modi provident quidem dignissimos
           </p>
           <div className="row button-about">
-            <div className="col-lg-5 col-md-5 col-sm-12">
+            <div className="col-lg-5 col-md-12 col-sm-12">
               <div className="learn-more">
                 <a href="#">Learn More...</a>
               </div>
