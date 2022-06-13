@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/login navbar/navbar.jsx";
+import Navbar from "../components/login navbar/navbar";
 
 function login() {
   return (

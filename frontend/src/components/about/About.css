@@ -26,3 +26,29 @@
   color: #fff;
   text-decoration: none;
 }
+
+@media screen and (min-width: 770px) and (max-width: 991px) {
+  .img-about {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .img-about img {
+    width: 70%;
+    height: auto;
+  }
+
+  .text-about {
+    margin-top: 50px;
+  }
+
+  .text-about h5 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .learn-more {
+    margin: auto;
+  }
+}

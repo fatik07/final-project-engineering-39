@@ -29,6 +29,11 @@
   color: #fff;
 }
 
+.btn-success-custom a {
+  color: #fff;
+  text-decoration: none;
+}
+
 .btn-success-custom:hover {
   background-color: #248679;
   border-radius: 10px;

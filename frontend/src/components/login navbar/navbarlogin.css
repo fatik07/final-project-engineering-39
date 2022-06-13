@@ -12,3 +12,13 @@ card > .card-header {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.cek {
+  margin-right: -100px;
+  margin-left: 100px;
+}
+
+.login-col-custom {
+  /* margin-top: 100px; */
+  margin-top: 150px;
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import About from "../components/about/About";
-import PopularBooks from "../components/books/PopularBooks";
+import PopularBooks from "../components/popular-books/PopularBooks";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 import Navbar from "../components/navbar/Navbar";

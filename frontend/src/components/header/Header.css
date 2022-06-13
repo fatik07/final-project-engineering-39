@@ -68,3 +68,17 @@
     /* margin-right: auto; */
   }
 }
+
+@media screen and (min-width: 770px) and (max-width: 991px) {
+  .img-header img {
+    /* margin-top: 20px; */
+    /* margin-left: 10px; */
+    margin: 50px auto 5px;
+    width: 70%;
+    height: auto;
+  }
+
+  .discover {
+    margin-left: -100px;
+  }
+}
