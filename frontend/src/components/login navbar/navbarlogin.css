@@ -1,0 +1,14 @@
+.card {
+  border-radius: 2px;
+  border: 0;
+}
+
+card > .card-header {
+  background: transparent;
+  border-bottom: 1px solid #eee;
+}
+
+.button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
