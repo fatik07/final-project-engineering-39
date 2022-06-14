@@ -31,14 +31,8 @@ func CreateTable(db *sql.DB) (string, error) {
 		Password varchar(255) not null,
 		role varchar(255) not null
 	);
+	
 
-	INSERT INTO user (Nama, Username, mail, Password, role) 
-	VALUES 
-	("admin", "admin", "admin", "admin", "admin"),
-	("jisoo", "jisookim","jisoo@email.com", "jisoo", "user"),
-	("lisa", "lisa17", "lisa@gmail.com", "lisa","admin");
-	
-	
 	`)
 	if err != nil {
 		return "Failed Make Table", err

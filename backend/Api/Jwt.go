@@ -6,7 +6,7 @@ import (
 
 type Credentials struct {
 	Username string `json:"username"`
-	Password string `json:"password"`
+	Password string `json:"password`
 }
 type Registration struct {
 	Nama     string `json:"nama"`
