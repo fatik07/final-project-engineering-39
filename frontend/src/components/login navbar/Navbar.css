@@ -8,9 +8,9 @@ card > .card-header {
   border-bottom: 1px solid #eee;
 }
 
-.button {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.buttonLogin {
+  text-align: left;
+  margin-bottom: 50px;
 }
 
 .cek {

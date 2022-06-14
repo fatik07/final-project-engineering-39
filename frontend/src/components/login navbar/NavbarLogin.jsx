@@ -23,26 +23,20 @@ function navbar() {
                 <div className="card p-4 cek">
                   <div className="card-body">
                     <div className="form-group">
-                      <h2> Log in To Your Account</h2>
+                      <h2> LOG IN TO YOUR ACCOUNT</h2>
                       <label>Email</label>
-                      <input
-                        type="text"
-                        placeholder="Email"
-                        className="form-control"
-                      />
+                      <input type="text" placeholder="Email" className="form-control" />
                     </div>
 
                     <div className="form-group">
                       <label>Password</label>
-                      <input
-                        type="password"
-                        placeholder="Password"
-                        className="form-control"
-                      />
+                      <input type="password" placeholder="Password" className="form-control" />
                     </div>
-                    <button type="submit" class="btn btn-primary float-right">
-                      Masuk <i class="ti-angle-double-right"></i>
-                    </button>
+                    <div className="buttonLogin">
+                      <button type="button" class="btn btn-success">
+                        Login
+                      </button>
+                    </div>
                     <p className="text-black">
                       dont have an account? <a href="register"> Register </a>{" "}
                     </p>
