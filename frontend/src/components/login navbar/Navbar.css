@@ -1,16 +1,27 @@
 .card {
-  border-radius: 2px;
+  border-radius: 5px;
   border: 0;
 }
 
 card > .card-header {
   background: transparent;
-  border-bottom: 1px solid #eee;
+  border-bottom: 2px solid rgba(230, 224, 224, 0.868);
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .buttonLogin {
-  text-align: left;
-  margin-bottom: 50px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+.text-black {
+  color: #000;
+  text-align: center;
 }
 
 .cek {
@@ -20,5 +31,5 @@ card > .card-header {
 
 .login-col-custom {
   /* margin-top: 100px; */
-  margin-top: 150px;
+  margin-top: 120px;
 }
