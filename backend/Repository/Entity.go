@@ -1,4 +1,4 @@
-package Repository
+package repository
 
 type User struct {
 	Id       int    `json:"id"`

@@ -1,17 +1,21 @@
-package Api
+package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
-	con "Project/Database"
+	"github.com/golang-jwt/jwt/v4"
+
+	con "project/database"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (api *API) Login(c *gin.Context) {
+	api.alloworigin(c)
 	var cred Credentials
 	err := json.NewDecoder(c.Request.Body).Decode(&cred)
 
@@ -43,7 +47,7 @@ func (api *API) Login(c *gin.Context) {
 		return
 	}
 
-	resp, err := api.userRepo.LoginUser(cred.Username, cred.Password)
+	resp, err := api.userRepo.LoginUser(cred.Username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -53,10 +57,11 @@ func (api *API) Login(c *gin.Context) {
 	}
 	dataUser := *resp
 
-	if dataUser.Password != cred.Password {
+	if err := bcrypt.CompareHashAndPassword([]byte(dataUser.Password), []byte(cred.Password)); err != nil {
+		fmt.Println(dataUser.Password)
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"code":    http.StatusUnauthorized,
-			"message": "user credential invalid",
+			"message": "password salah",
 		})
 		return
 	} else if dataUser.Username != cred.Username {
@@ -102,6 +107,7 @@ func (api *API) Login(c *gin.Context) {
 }
 
 func (api *API) Register(c *gin.Context) {
+	api.alloworigin(c)
 	var reg Registration
 
 	err := json.NewDecoder(c.Request.Body).Decode(&reg)
@@ -148,6 +154,8 @@ func (api *API) Register(c *gin.Context) {
 		return
 	}
 	//dataUser := *resp
+	password, _ := bcrypt.GenerateFromPassword([]byte(reg.Password), 10)
+	strPassword := string(password)
 	query := `INSERT INTO user (username, password, mail, nama ,role) 
 	VALUES (?, ?, ?, ?, ?);`
 
@@ -160,7 +168,7 @@ func (api *API) Register(c *gin.Context) {
 		return
 	}
 
-	_, err = stmt.Exec(reg.Username, reg.Password, reg.Mail, reg.Nama, "user")
+	_, err = stmt.Exec(reg.Username, strPassword, reg.Mail, reg.Nama, "user")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -175,6 +183,7 @@ func (api *API) Register(c *gin.Context) {
 }
 
 func (api *API) RegisterAdmin(c *gin.Context) {
+	api.alloworigin(c)
 	var reg Registration
 
 	err := json.NewDecoder(c.Request.Body).Decode(&reg)
@@ -221,6 +230,8 @@ func (api *API) RegisterAdmin(c *gin.Context) {
 		return
 	}
 	//dataUser := *resp
+	password, _ := bcrypt.GenerateFromPassword([]byte(reg.Password), 10)
+	strPassword := string(password)
 	query := `INSERT INTO user (username, password, mail, nama ,role) 
 	VALUES (?, ?, ?, ?, ?);`
 
@@ -233,7 +244,7 @@ func (api *API) RegisterAdmin(c *gin.Context) {
 		return
 	}
 
-	_, err = stmt.Exec(reg.Username, reg.Password, reg.Mail, reg.Nama, "admin")
+	_, err = stmt.Exec(reg.Username, strPassword, reg.Mail, reg.Nama, "admin")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -247,16 +258,9 @@ func (api *API) RegisterAdmin(c *gin.Context) {
 	})
 }
 
+
 func (api *API) Logout(c *gin.Context) {
-	//logout
-	_, err := c.Request.Cookie("token")
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"code":    http.StatusUnauthorized,
-			"message": "anda belum login",
-		})
-		return
-	}
+	api.alloworigin(c)
 
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name:    "token",

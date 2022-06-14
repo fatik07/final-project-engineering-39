@@ -1,9 +1,10 @@
 package main
 
 import (
-	"Project/Api"
-	con "Project/Database"
-	repository "Project/Repository"
+	"project/api"
+	con "project/database"
+	repository "project/repository"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -13,7 +14,7 @@ func main() {
 		panic(err)
 	}
 
-	Repository := repository.NewUserRepo(db)
-	mainApi := Api.NewAPI(*Repository)
+	repository := repository.NewUserRepo(db)
+	mainApi := api.NewAPI(*repository)
 	mainApi.Start()
 }

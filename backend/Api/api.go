@@ -1,8 +1,8 @@
-package Api
+package api
 
 import (
-	repository "Project/Repository"
 	"fmt"
+	repository "project/repository"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +22,7 @@ func NewAPI(userRepo repository.UserRepo) *API {
 	gin.POST("/Register", api.Register)
 	gin.POST("/Login", api.Login)
 	gin.POST("/RegisterAdmin", api.RegisterAdmin)
-	gin.POST("/Logout", api.Logout)
+	gin.POST("/Logout", api.AuthMiddleWare(api.Logout))
 
 	return api
 }

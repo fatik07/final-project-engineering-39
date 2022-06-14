@@ -1,4 +1,4 @@
-package Api
+package api
 
 import (
 	"github.com/golang-jwt/jwt/v4"
@@ -6,7 +6,7 @@ import (
 
 type Credentials struct {
 	Username string `json:"username"`
-	Password string `json:"password"`
+	Password string `json:"password`
 }
 type Registration struct {
 	Nama     string `json:"nama"`
