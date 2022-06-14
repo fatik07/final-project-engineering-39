@@ -1,14 +1,15 @@
 package api
 
 import (
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"testing"
+
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
 )
 
 func Test(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "testing_suite_User")
+	RunSpecs(t, "Testing Suite")
 }
 
 var _ = Describe("Api", func() {
