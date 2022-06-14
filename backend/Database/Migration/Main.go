@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 
-	con "Project/Database"
+	con "project/database"
 
 	_ "github.com/mattn/go-sqlite3"
 )

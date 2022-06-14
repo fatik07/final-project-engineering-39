@@ -1,17 +1,18 @@
-package Api
+package api
 
 import (
 	"encoding/json"
 	"net/http"
 	"time"
 
-	con "Project/Database"
+	con "project/database"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
 
 func (api *API) Login(c *gin.Context) {
+	api.alloworigin(c)
 	var cred Credentials
 	err := json.NewDecoder(c.Request.Body).Decode(&cred)
 
@@ -102,6 +103,7 @@ func (api *API) Login(c *gin.Context) {
 }
 
 func (api *API) Register(c *gin.Context) {
+	api.alloworigin(c)
 	var reg Registration
 
 	err := json.NewDecoder(c.Request.Body).Decode(&reg)
@@ -175,6 +177,7 @@ func (api *API) Register(c *gin.Context) {
 }
 
 func (api *API) RegisterAdmin(c *gin.Context) {
+	api.alloworigin(c)
 	var reg Registration
 
 	err := json.NewDecoder(c.Request.Body).Decode(&reg)
@@ -248,15 +251,7 @@ func (api *API) RegisterAdmin(c *gin.Context) {
 }
 
 func (api *API) Logout(c *gin.Context) {
-	//logout
-	_, err := c.Request.Cookie("token")
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"code":    http.StatusUnauthorized,
-			"message": "anda belum login",
-		})
-		return
-	}
+	api.alloworigin(c)
 
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name:    "token",
