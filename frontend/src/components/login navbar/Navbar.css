@@ -17,6 +17,7 @@ card > .card-header {
   text-align: center;
   margin-bottom: 20px;
   font-size: 2em;
+  color: rgba(230, 224, 224, 0.868);
 }
 
 .text-black {

@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import img from "../../assets/img/img-login.png";
 
@@ -23,6 +24,7 @@ function navbar() {
                 <div className="card p-3 cek">
                   <div className="card-body">
                     <div className="form-group row mb-2">
+                      <NavLink className="nav-link active" aria-current="page" to="/"></NavLink>
                       <h2 className="text-center">Login To Your Account</h2>
 
                       <label for="inputUsername3" class="col-sm-3 col-form-label">
@@ -41,8 +43,8 @@ function navbar() {
                     </div>
 
                     <div className="buttonLogin row mb-3">
-                      <button type="button" class="btn btn-success">
-                        Login
+                      <button class="btn btn-success-custom" type="submit">
+                        <NavLink to="Home">Login</NavLink>
                       </button>
                     </div>
                     <p className="text-black">
