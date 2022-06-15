@@ -25,9 +25,10 @@ var _ = Describe("Api", func() {
 
 		bodyReader := strings.NewReader(`{"username": "lisa17", "password": "lisa"}`)
 
-		repository := repository.NewUserRepo(db)
+		userRepo := repository.NewUserRepo(db)
+		userAdmin := repository.NewTaskRepo(db)
 
-		route := api.NewAPI(*repository).Handler()
+		route := api.NewAPI(*userRepo, *userAdmin).Handler()
 		w := httptest.NewRecorder()
 		r, err := http.NewRequest("POST", "/Login", bodyReader)
 		if err != nil {
@@ -56,8 +57,9 @@ var _ = Describe("Api", func() {
 		defer db.Close()
 
 		bodyReader := strings.NewReader(`{"username": "lisa172", "password": "lisa2"}`)
-		repository := repository.NewUserRepo(db)
-		route := api.NewAPI(*repository).Handler()
+		userRepo := repository.NewUserRepo(db)
+		userAdmin := repository.NewTaskRepo(db)
+		route := api.NewAPI(*userRepo, *userAdmin).Handler()
 		w := httptest.NewRecorder()
 		r, err := http.NewRequest("POST", "/Login", bodyReader)
 		if err != nil {

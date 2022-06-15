@@ -14,7 +14,8 @@ func main() {
 		panic(err)
 	}
 
-	repository := repository.NewUserRepo(db)
-	mainApi := api.NewAPI(*repository)
-	mainApi.Start()
+	userRepo := repository.NewUserRepo(db)
+	userAdmin := repository.NewTaskRepo(db)
+	route := api.NewAPI(*userRepo, *userAdmin)
+	route.Start()
 }

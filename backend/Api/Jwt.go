@@ -23,3 +23,18 @@ type Claims struct {
 	Role     string
 	jwt.StandardClaims
 }
+
+type CreateTaskInput struct {
+	Judul     string `json:"judul"`
+	Tanggal   string `json:"tanggal"`
+	Penulis   string `json:"penulis"`
+	Deskripsi string `json:"deskripsi"`
+}
+
+type UpdateTaskInput struct {
+	Id        int    `json:"id"`
+	Judul     string `json:"judul"`
+	Tanggal   string `json:"tanggal"`
+	Penulis   string `json:"penulis"`
+	Deskripsi string `json:"deskripsi"`
+}
