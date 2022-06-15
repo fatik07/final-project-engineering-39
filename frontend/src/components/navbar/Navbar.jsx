@@ -54,10 +54,29 @@ export default function Navbar() {
                   Contact
                 </NavLink>
               </li>
-              <li className="nav-item ps-3">
+              {/* <li className="nav-item ps-3">
                 <button class="btn btn-success-custom" type="submit">
                   <NavLink to="login">Sign In</NavLink>
                 </button>
+              </li> */}
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Hii, User
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <NavLink class="dropdown-item" to="/logout">
+                      Logout
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
