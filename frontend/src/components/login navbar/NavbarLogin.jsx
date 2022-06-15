@@ -25,11 +25,11 @@ function navbar() {
                     <div className="form-group row mb-2">
                       <h2 className="text-center">Login To Your Account</h2>
 
-                      <label for="inputEmail3" class="col-sm-3 col-form-label">
-                        Email
+                      <label for="inputUsername3" class="col-sm-3 col-form-label">
+                        Username
                       </label>
                       <div class="col-sm-10"></div>
-                      <input type="text" id="inputEmail3" placeholder="Email" className="form-control" />
+                      <input type="text" id="inputUsername3" placeholder="Username" className="form-control" />
                     </div>
 
                     <div className="form-group row mb-3">
