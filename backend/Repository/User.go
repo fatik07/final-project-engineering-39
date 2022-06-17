@@ -1,4 +1,4 @@
-package Repository
+package repository
 
 import "database/sql"
 
@@ -10,10 +10,10 @@ func NewUserRepo(db *sql.DB) *UserRepo {
 	return &UserRepo{db: db}
 }
 
-func (u *UserRepo) LoginUser(username string, password string) (*User, error) {
-	sqlStatement := `SELECT * FROM user WHERE Username = ? AND Password = ?;`
+func (u *UserRepo) LoginUser(username string) (*User, error) {
+	sqlStatement := `SELECT * FROM user WHERE Username = ?;`
 
-	rows, err := u.db.Query(sqlStatement, username, password)
+	rows, err := u.db.Query(sqlStatement, username)
 	if err != nil {
 		return nil, err
 	}

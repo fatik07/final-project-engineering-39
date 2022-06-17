@@ -48,7 +48,7 @@ const NavbarLogin = () => {
                       </button>
                     </div>
                     <p className="text-black">
-                      dont have an account? <a href="register"> Register </a>
+                      Don't have an account? <a href="register"> Register </a>
                     </p>
                   </div>
                 </div>

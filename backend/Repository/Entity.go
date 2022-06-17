@@ -1,4 +1,4 @@
-package Repository
+package repository
 
 type User struct {
 	Id       int    `json:"id"`
@@ -8,3 +8,15 @@ type User struct {
 	Password string `json:"password"`
 	Role     string `json:"role"`
 }
+
+type Task struct {
+	Id        int    `json:"id"`
+	Judul     string `json:"judul"`
+	Tanggal   string `json:"tanggal"`
+	Penulis   string `json:"penulis"`
+	Deskripsi string `json:"deskripsi"`
+}
+
+// type AdminCollection struct {
+// 	Admins []Task `json:"admins"`
+// }
