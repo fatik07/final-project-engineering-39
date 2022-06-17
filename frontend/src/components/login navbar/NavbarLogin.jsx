@@ -39,7 +39,7 @@ const NavbarLogin = () => {
                         Password
                       </label>
                       <div class="col-sm-10"></div>
-                      <input type="password" placeholder="Password" className="form-control" />
+                      <input type="password" placeholder="Enter password" className="form-control" />
                     </div>
 
                     <div className="buttonLogin row mb-3">
