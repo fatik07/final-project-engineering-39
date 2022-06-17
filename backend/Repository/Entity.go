@@ -17,6 +17,7 @@ type Task struct {
 	Deskripsi string `json:"deskripsi"`
 }
 
-// type AdminCollection struct {
-// 	Admins []Task `json:"admins"`
-// }
+type Penulis struct {
+	Id   int    `json:"id"`
+	Nama string `json:"nama"`
+}

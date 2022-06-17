@@ -23,7 +23,7 @@ func (api *API) CreateTask(c *gin.Context) {
 	} else if task.Tanggal == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Tanggal tidak boleh kosong"})
 		return
-	} else if task.Penulis == "" {
+	} else if task.IdPenulis == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Penulis tidak boleh kosong"})
 		return
 	} else if task.Deskripsi == "" {
@@ -31,7 +31,7 @@ func (api *API) CreateTask(c *gin.Context) {
 		return
 	}
 
-	_, err := api.adminRepo.PutTask(task.Judul, task.Tanggal, task.Penulis, task.Deskripsi)
+	_, err := api.adminRepo.PutTask(task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -40,7 +40,7 @@ func (api *API) CreateTask(c *gin.Context) {
 		return
 	}
 
-	query := `INSERT INTO task (judul, tanggal, penulis, deskripsi) VALUES (?, ?, ?, ?);`
+	query := `INSERT INTO task (judul, tanggal, Id_Penulis, deskripsi) VALUES (?, ?, ?, ?);`
 	stmt, err := con.DB.Prepare(query)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -50,7 +50,7 @@ func (api *API) CreateTask(c *gin.Context) {
 		return
 	}
 
-	_, err = stmt.Exec(task.Judul, task.Tanggal, task.Penulis, task.Deskripsi)
+	_, err = stmt.Exec(task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -82,7 +82,7 @@ func (api *API) UpdateTask(c *gin.Context) {
 	} else if task.Tanggal == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Tanggal tidak boleh kosong"})
 		return
-	} else if task.Penulis == "" {
+	} else if task.IdPenulis == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Penulis tidak boleh kosong"})
 		return
 	} else if task.Deskripsi == "" {
@@ -90,7 +90,7 @@ func (api *API) UpdateTask(c *gin.Context) {
 		return
 	}
 
-	_, err := api.adminRepo.UpdateTask(task.Id, task.Judul, task.Tanggal, task.Penulis, task.Deskripsi)
+	_, err := api.adminRepo.UpdateTask(task.Id, task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -99,7 +99,7 @@ func (api *API) UpdateTask(c *gin.Context) {
 		return
 	}
 
-	query := `UPDATE task SET judul = ?, tanggal = ?, penulis = ?, deskripsi = ? WHERE id = ?;`
+	query := `UPDATE task SET judul = ?, tanggal = ?, Id_Penulis = ?, deskripsi = ? WHERE id = ?;`
 	stmt, err := con.DB.Prepare(query)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -109,7 +109,7 @@ func (api *API) UpdateTask(c *gin.Context) {
 		return
 	}
 
-	_, err = stmt.Exec(task.Judul, task.Tanggal, task.Penulis, task.Deskripsi, task.Id)
+	_, err = stmt.Exec(task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi, task.Id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -160,4 +160,23 @@ func (api *API) DeleteTask(c *gin.Context) {
 		"message": "Materi berhasil dihapus",
 		"data":    task,
 	})
+}
+
+func (api *API) Get_Penulis(c *gin.Context) {
+	api.alloworigin(c)
+	penulis, err := api.adminRepo.GetPenulis()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code":    http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "Berhasil",
+		"data":    penulis,
+	})
+
 }

@@ -27,7 +27,7 @@ type Claims struct {
 type CreateTaskInput struct {
 	Judul     string `json:"judul"`
 	Tanggal   string `json:"tanggal"`
-	Penulis   string `json:"penulis"`
+	IdPenulis string `json:"Id_Penulis"`
 	Deskripsi string `json:"deskripsi"`
 }
 
@@ -35,6 +35,6 @@ type UpdateTaskInput struct {
 	Id        int    `json:"id"`
 	Judul     string `json:"judul"`
 	Tanggal   string `json:"tanggal"`
-	Penulis   string `json:"penulis"`
+	IdPenulis string `json:"id_Penulis"`
 	Deskripsi string `json:"deskripsi"`
 }

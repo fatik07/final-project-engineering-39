@@ -29,6 +29,7 @@ func NewAPI(userRepo repository.UserRepo, adminRepo repository.AdminRepo) *API {
 	gin.POST("/Add", api.AuthMiddleWare(api.CreateTask))
 	gin.PUT("/Edit", api.AuthMiddleWare(api.UpdateTask))
 	gin.DELETE("/Delete", api.DeleteTask)
+	gin.GET("/GetPenulis", api.Get_Penulis)
 	return api
 }
 
@@ -37,6 +38,6 @@ func (api *API) Handler() *gin.Engine {
 }
 
 func (api *API) Start() {
-	fmt.Println("http://localhost:8008/")
+	fmt.Println("http://localhst:8008/")
 	api.Handler().Run(":8008")
 }
