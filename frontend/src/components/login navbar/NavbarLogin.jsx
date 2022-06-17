@@ -13,7 +13,7 @@ let sectionStyle = {
   backgroundImage: `url(${img})`,
 };
 
-function navbar() {
+const NavbarLogin = () => {
   return (
     <div className="main-login" style={sectionStyle}>
       <div className="login-contain">
@@ -59,5 +59,5 @@ function navbar() {
       </div>
     </div>
   );
-}
-export default navbar;
+};
+export default NavbarLogin;
