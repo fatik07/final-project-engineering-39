@@ -25,8 +25,8 @@ func NewAPI(userRepo repository.UserRepo, adminRepo repository.AdminRepo) *API {
 	gin.POST("/Login", api.Login)
 	gin.POST("/RegisterAdmin", api.RegisterAdmin)
 	gin.POST("/Logout", api.AuthMiddleWare(api.Logout))
-	gin.GET("/Tampil", api.GetTask)
-	gin.POST("/Tambah", api.AuthMiddleWare(api.CreateTask))
+	gin.GET("/Show", api.GetTask)
+	gin.POST("/Add", api.AuthMiddleWare(api.CreateTask))
 	gin.PUT("/Edit", api.AuthMiddleWare(api.UpdateTask))
 	gin.DELETE("/Delete", api.DeleteTask)
 	return api

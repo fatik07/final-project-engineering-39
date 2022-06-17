@@ -61,7 +61,7 @@ func (api *API) CreateTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
-		"message": "Task berhasil ditambahkan",
+		"message": "Materi berhasil ditambahkan",
 	})
 }
 
@@ -120,7 +120,7 @@ func (api *API) UpdateTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
-		"message": "Task berhasil diubah",
+		"message": "Materi berhasil diubah",
 	})
 }
 
@@ -137,7 +137,7 @@ func (api *API) GetTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
-		"message": "Task berhasil ditambahkan",
+		"message": "Materi berhasil ditambahkan",
 		"data":    task,
 	})
 }
@@ -157,7 +157,7 @@ func (api *API) DeleteTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
-		"message": "Task berhasil dihapus",
+		"message": "Materi berhasil dihapus",
 		"data":    task,
 	})
 }
