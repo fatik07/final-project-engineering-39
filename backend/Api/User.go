@@ -258,7 +258,6 @@ func (api *API) RegisterAdmin(c *gin.Context) {
 	})
 }
 
-
 func (api *API) Logout(c *gin.Context) {
 	api.alloworigin(c)
 
