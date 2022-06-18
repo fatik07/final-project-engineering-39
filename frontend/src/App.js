@@ -6,14 +6,14 @@ import "./App.css";
 import Register from "./pages/Register";
 // import { BrowserRouter as RouterRoutes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
+import Login from "./pages/login";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/home" element={<Home />} />
+      <Route exact path="/" element={<Login />} />
+      <Route exact path="/register" element={<Register />} />
+      <Route exact path="/home" element={<Home />} />
     </Routes>
   );
 }
