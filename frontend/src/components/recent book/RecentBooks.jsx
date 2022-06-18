@@ -1,13 +1,14 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import book1 from "../../assets/img/book-1.jpg";
-import "./PopularBooks.css";
+import "./RecentBooks.css";
 
-export default function PopularBooks() {
+export default function RecentBooks() {
   return (
     <div className="container-custom ms-5 me-5">
       <div className="row popular-books">
         <div className="col-12 col-lg-12 col-md-12 col-sm-12 text-center">
-          <h1>Popular Books</h1>
+          <h1>Recent Books</h1>
         </div>
       </div>
       <div className="row mt-5">
@@ -99,6 +100,15 @@ export default function PopularBooks() {
                 Read More ...
               </a>
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="row mt-3">
+        <div className="col-12 col-xl-12 col-md-12 col-sm-12">
+          <div className="text-center">
+            <NavLink to="/books" className="btn read-more btn-lg">
+              View All Books
+            </NavLink>
           </div>
         </div>
       </div>
