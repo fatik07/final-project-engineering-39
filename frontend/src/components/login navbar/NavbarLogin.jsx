@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import img from "../../assets/img/img-login.png";
 
-let sectionStyle = {
-  width: "100%",
-  height: "100vh",
+const App = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  // backgroundPosition: 'center',
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repseat",
-  backgroundImage: `url(${img})`,
-};
+  let sectionStyle = {
+    width: "100%",
+    height: "100vh",
 
-const NavbarLogin = () => {
+    // backgroundPosition: 'center',
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repseat",
+    backgroundImage: `url(${img})`,
+  };
+
   return (
     <div className="main-login" style={sectionStyle}>
       <div className="login-contain">
@@ -24,14 +27,12 @@ const NavbarLogin = () => {
                 <div className="card p-3 cek">
                   <div className="card-body">
                     <div className="form-group row mb-2">
-                      <NavLink className="nav-link active" aria-current="page" to="/"></NavLink>
-                      <h2 className="text-center">Login To Your Account</h2>
-
+                      <h2 className="text-center">Login To Your Account </h2>
                       <label for="inputUsername3" class="col-sm-3 col-form-label">
                         Username
                       </label>
-                      <div class="col-sm-10"></div>
-                      <input type="text" id="inputUsername3" placeholder="Username" className="form-control" />
+                      <div class="col-sm-10"> </div>
+                      <input onChange={(e) => setUsername(e.target.value)} value={username} type="username" id="inputUsername3" placeholder="Enter username" className="form-control" />
                     </div>
 
                     <div className="form-group row mb-3">
@@ -39,7 +40,7 @@ const NavbarLogin = () => {
                         Password
                       </label>
                       <div class="col-sm-10"></div>
-                      <input type="password" placeholder="Enter password" className="form-control" />
+                      <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="Enter password" className="form-control" />
                     </div>
 
                     <div className="buttonLogin row mb-3">
@@ -60,4 +61,4 @@ const NavbarLogin = () => {
     </div>
   );
 };
-export default NavbarLogin;
+export default App;
