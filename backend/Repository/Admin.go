@@ -32,7 +32,7 @@ func (a *AdminRepo) GetTask() ([]Task, error) {
 }
 
 func (a *AdminRepo) PutTask(judul string, tanggal string, penulis string, deskripsi string) (int64, error) {
-	sqlStatement := `INSERT INTO task (Judul, Tanggal, Penulis, Deskripsi) VALUES (?, ?, ?, ?);`
+	sqlStatement := `INSERT INTO task (Judul, Tanggal, Id_Penulis, Deskripsi) VALUES (?, ?, ?, ?);`
 
 	stmt, err := a.db.Prepare(sqlStatement)
 	if err != nil {
@@ -49,7 +49,7 @@ func (a *AdminRepo) PutTask(judul string, tanggal string, penulis string, deskri
 	return result.LastInsertId()
 }
 func (a *AdminRepo) UpdateTask(id int, judul string, tanggal string, penulis string, deskripsi string) (int64, error) {
-	sqlStatement := `UPDATE task SET Judul = ?, Tanggal = ?, Penulis = ?, Deskripsi = ? WHERE id = ?;`
+	sqlStatement := `UPDATE task SET Judul = ?, Tanggal = ?, Id_Penulis = ?, Deskripsi = ? WHERE id = ?;`
 
 	stmt, err := a.db.Prepare(sqlStatement)
 	if err != nil {
@@ -81,4 +81,25 @@ func (a *AdminRepo) DeleteTask(id int) (int64, error) {
 	}
 
 	return result.RowsAffected()
+}
+
+func (a *AdminRepo) GetPenulis() ([]Penulis, error) {
+	rows, err := a.db.Query(`SELECT * FROM penulis;`)
+	if err != nil {
+		return []Penulis{}, err
+	}
+
+	defer rows.Close()
+
+	result := []Penulis{}
+	for rows.Next() {
+		author := Penulis{}
+		err = rows.Scan(&author.Id, &author.Nama)
+		if err != nil {
+			return []Penulis{}, err
+		}
+		result = append(result, author)
+	}
+
+	return result, nil
 }

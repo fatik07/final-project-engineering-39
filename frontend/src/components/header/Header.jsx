@@ -9,13 +9,11 @@ export default function Header() {
         <div className="highlight col-12 col-lg-6 col-md-12 col-sm-12">
           <h1>Make it Simple</h1>
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa
-            similique tenetur atque sequi. Vel ipsa eos esse, amet error tempora
-            voluptatibus, laboriosam accusamus dolore maxime, quisquam modi
-            provident quidem dignissimos. Lorem ipsum, dolor sit amet
-            consectetur adipisicing elit. Culpa similique tenetur atque sequi.
-            Vel ipsa eos esse, amet error tempora voluptatibus, laboriosam
-            accusamus dolore maxime, quisquam modi provident quidem dignissimos
+            <b>Ladang Materi</b> is a learning website that is intended for high
+            school students (equivalent). Where does this Ladang Materi have
+            material learning that is needed for high school children
+            (equivalent). Ladang Materi is very interesting, innovative and easy
+            to understand and studied especially high school children.
           </p>
           <div className="row button-header">
             <div className="col-lg-5 col-md-5 col-sm-12">

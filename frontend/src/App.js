@@ -11,9 +11,11 @@ import Login from "./pages/Login";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/home" element={<Home />} />
+      <Route exact path="/" element={<Login />} />
+      <Route exact path="/register" element={<Register />} />
+      <Route exact path="/home" element={<Home />} />
+      <Route exact path="/admin" element={<h1>ini halaman Admin</h1>} />
+      <Route path="*" element={<h1>404 Not Found</h1>} />
     </Routes>
   );
 }

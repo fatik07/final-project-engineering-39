@@ -43,6 +43,15 @@ export default function Navbar() {
               </div>
             </div>
 
+            <div class="form-group row mb-3">
+              <label for="inputEmail" class="col-sm-2 col-form-label">
+                Email
+              </label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="inputEmail" placeholder="email" required></input>
+              </div>
+            </div>
+
             <div className="buttonRegister">
               <button type="button" class="btn btn-success">
                 Register
