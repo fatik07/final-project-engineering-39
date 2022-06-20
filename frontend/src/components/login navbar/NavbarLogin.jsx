@@ -27,6 +27,7 @@ const App = () => {
                 <div className="card p-3 cek">
                   <div className="card-body">
                     <div className="form-group row mb-2">
+                      <NavLink className="nav-link active" aria-current="page" to="/"></NavLink>
                       <h2 className="text-center">Login To Your Account </h2>
                       <label for="inputUsername3" class="col-sm-3 col-form-label">
                         Username
@@ -42,7 +43,6 @@ const App = () => {
                       <div class="col-sm-10"></div>
                       <input type="password" placeholder="Enter password" className="form-control" />
                       <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="Enter password" className="form-control" />
-
                     </div>
 
                     <div className="buttonLogin row mb-3">
