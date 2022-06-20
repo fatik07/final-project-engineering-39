@@ -41,7 +41,9 @@ const App = () => {
                         Password
                       </label>
                       <div class="col-sm-10"></div>
+                      <input type="password" placeholder="Enter password" className="form-control" />
                       <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="Enter password" className="form-control" />
+
                     </div>
 
                     <div className="buttonLogin row mb-3">
