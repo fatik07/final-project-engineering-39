@@ -16,6 +16,18 @@ import (
 
 func (api *API) Login(c *gin.Context) {
 	api.alloworigin(c)
+	if c.Request.Method == "OPTIONS" {
+		c.Writer.WriteHeader(200)
+		return
+	}
+
+	if c.Request.Method != "POST" {
+		c.JSON(400, gin.H{
+			"status":  400,
+			"message": "Method Not Allowed",
+		})
+		return
+	}
 	var cred Credentials
 	err := json.NewDecoder(c.Request.Body).Decode(&cred)
 
@@ -75,6 +87,7 @@ func (api *API) Login(c *gin.Context) {
 	expirationTime := time.Now().Local().Add((5 * time.Minute) + (7 * time.Hour) + (5 * time.Minute))
 
 	claims := &Claims{
+		Id:       dataUser.Id,
 		Username: cred.Username,
 		Role:     "user",
 		StandardClaims: jwt.StandardClaims{
@@ -98,16 +111,28 @@ func (api *API) Login(c *gin.Context) {
 		Value:   tokenString,
 		Expires: expirationTime,
 	})
-
+	dataToken := map[string]string{"token": tokenString}
 	c.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
 		"message": "login success",
-		"data":    dataUser,
+		"data":    dataToken,
 	})
 }
 
 func (api *API) Register(c *gin.Context) {
 	api.alloworigin(c)
+	if c.Request.Method == "OPTIONS" {
+		c.Writer.WriteHeader(200)
+		return
+	}
+
+	if c.Request.Method != "POST" {
+		c.JSON(400, gin.H{
+			"status":  400,
+			"message": "Method Not Allowed",
+		})
+		return
+	}
 	var reg Registration
 
 	err := json.NewDecoder(c.Request.Body).Decode(&reg)
@@ -184,6 +209,19 @@ func (api *API) Register(c *gin.Context) {
 
 func (api *API) RegisterAdmin(c *gin.Context) {
 	api.alloworigin(c)
+	if c.Request.Method == "OPTIONS" {
+		c.Writer.WriteHeader(200)
+		return
+	}
+
+	if c.Request.Method != "POST" {
+		c.JSON(400, gin.H{
+			"status":  400,
+			"message": "Method Not Allowed",
+		})
+		return
+	}
+
 	var reg Registration
 
 	err := json.NewDecoder(c.Request.Body).Decode(&reg)

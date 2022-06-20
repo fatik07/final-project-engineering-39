@@ -19,6 +19,7 @@ type Registration struct {
 var jwtKey = []byte("key")
 
 type Claims struct {
+	Id       int `json:"id"`
 	Username string
 	Role     string
 	jwt.StandardClaims
