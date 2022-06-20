@@ -27,6 +27,7 @@ const App = () => {
                 <div className="card p-3 cek">
                   <div className="card-body">
                     <div className="form-group row mb-2">
+                      <NavLink className="nav-link active" aria-current="page" to="/"></NavLink>
                       <h2 className="text-center">Login To Your Account </h2>
                       <label for="inputUsername3" class="col-sm-3 col-form-label">
                         Username
