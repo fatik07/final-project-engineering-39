@@ -30,6 +30,7 @@ func NewAPI(userRepo repository.UserRepo, adminRepo repository.AdminRepo) *API {
 	gin.PUT("/Edit", api.AuthMiddleWare(api.UpdateTask))
 	gin.DELETE("/Delete", api.DeleteTask)
 	gin.GET("/GetPenulis", api.Get_Penulis)
+	gin.GET("/MyProfile", api.AuthMiddleWare(api.GetProfile))
 	return api
 }
 

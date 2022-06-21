@@ -89,7 +89,7 @@ func (api *API) Login(c *gin.Context) {
 	claims := &Claims{
 		Id:       dataUser.Id,
 		Username: cred.Username,
-		Role:     "user",
+		Role:     dataUser.Role,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
@@ -121,6 +121,7 @@ func (api *API) Login(c *gin.Context) {
 
 func (api *API) Register(c *gin.Context) {
 	api.alloworigin(c)
+
 	if c.Request.Method == "OPTIONS" {
 		c.Writer.WriteHeader(200)
 		return
@@ -170,6 +171,14 @@ func (api *API) Register(c *gin.Context) {
 		return
 	}
 
+	check, _ := api.userRepo.CheckAccount(reg.Username, reg.Mail)
+	if check.Id != 0 {
+		c.JSON(400, gin.H{
+			"code":    400,
+			"message": "akun sudah ada",
+		})
+		return
+	}
 	_, err = api.userRepo.RegisterUser(reg.Mail)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -308,5 +317,72 @@ func (api *API) Logout(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
 		"message": "logout success",
+	})
+}
+
+func (api *API) GetProfile(c *gin.Context) {
+	token, err := c.Request.Cookie("token")
+	if err != nil {
+		if err == http.ErrNoCookie {
+			c.Writer.WriteHeader(http.StatusUnauthorized)
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"code":    http.StatusUnauthorized,
+				"message": "anda belum login",
+			})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	tknStr := token.Value
+
+	claims := &Claims{}
+
+	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if err != nil {
+		if err == jwt.ErrSignatureInvalid {
+			c.Writer.WriteHeader(http.StatusUnauthorized)
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"code":    http.StatusUnauthorized,
+				"message": err.Error(),
+			})
+			return
+		}
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"code":    http.StatusUnauthorized,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if !tkn.Valid {
+		c.Writer.WriteHeader(http.StatusUnauthorized)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"code":    http.StatusUnauthorized,
+			"message": "token invalid!",
+		})
+		return
+	}
+
+	dataProfile, err := api.userRepo.GetProfile(claims.Username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code":    http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "berhasil",
+		"data":    dataProfile,
 	})
 }
