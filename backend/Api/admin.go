@@ -142,6 +142,28 @@ func (api *API) GetTask(c *gin.Context) {
 	})
 }
 
+func (api *API) GetTaskById(c *gin.Context) {
+	api.alloworigin(c)
+	id, err := strconv.Atoi(c.Query("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": http.StatusInternalServerError,
+		})
+	}
+	task, err := api.adminRepo.GetTaskById(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": http.StatusInternalServerError,
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "Materi berhasil ditampilkan",
+		"data":    task,
+	})
+
+}
+
 func (api *API) DeleteTask(c *gin.Context) {
 	api.alloworigin(c)
 	id, _ := strconv.Atoi(c.Query("id"))
