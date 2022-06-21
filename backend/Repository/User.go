@@ -47,3 +47,41 @@ func (u *UserRepo) RegisterUser(email string) (*User, error) {
 
 	return &user, nil
 }
+
+func (u *UserRepo) CheckAccount(username, mail string) (*User, error) {
+	sqlStatement := `SELECT * FROM user WHERE username = ? or mail = ?;`
+
+	rows, err := u.db.Query(sqlStatement, username, mail)
+	if err != nil {
+		return nil, err
+	}
+
+	var user User
+	for rows.Next() {
+		err = rows.Scan(&user.Id, &user.Nama, &user.Username, &user.Mail, &user.Password, &user.Role)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return &user, nil
+}
+
+func (u *UserRepo) GetProfile(username string) (*User, error) {
+	sqlStatement := `SELECT * FROM user WHERE username = ?;`
+
+	rows, err := u.db.Query(sqlStatement, username)
+	if err != nil {
+		return nil, err
+	}
+
+	var user User
+	for rows.Next() {
+		err = rows.Scan(&user.Id, &user.Nama, &user.Username, &user.Mail, &user.Password, &user.Role)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return &user, nil
+}
