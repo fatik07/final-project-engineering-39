@@ -3,7 +3,6 @@ package api
 import (
 	"log"
 	"net/http"
-	con "project/database"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -32,25 +31,6 @@ func (api *API) CreateTask(c *gin.Context) {
 	}
 
 	_, err := api.adminRepo.PutTask(task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	query := `INSERT INTO task (judul, tanggal, Id_Penulis, deskripsi) VALUES (?, ?, ?, ?);`
-	stmt, err := con.DB.Prepare(query)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	_, err = stmt.Exec(task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -99,25 +79,6 @@ func (api *API) UpdateTask(c *gin.Context) {
 		return
 	}
 
-	query := `UPDATE task SET judul = ?, tanggal = ?, Id_Penulis = ?, deskripsi = ? WHERE id = ?;`
-	stmt, err := con.DB.Prepare(query)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	_, err = stmt.Exec(task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi, task.Id)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
 		"message": "Materi berhasil diubah",
@@ -126,6 +87,10 @@ func (api *API) UpdateTask(c *gin.Context) {
 
 func (api *API) GetTask(c *gin.Context) {
 	api.alloworigin(c)
+	if c.Query("search") != "" {
+		api.Search(c)
+		return
+	}
 	task, err := api.adminRepo.GetTask()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -140,6 +105,28 @@ func (api *API) GetTask(c *gin.Context) {
 		"message": "Materi berhasil ditambahkan",
 		"data":    task,
 	})
+}
+
+func (api *API) GetTaskById(c *gin.Context) {
+	api.alloworigin(c)
+	id, err := strconv.Atoi(c.Query("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": http.StatusInternalServerError,
+		})
+	}
+	task, err := api.adminRepo.GetTaskById(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": http.StatusInternalServerError,
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "Materi berhasil ditampilkan",
+		"data":    task,
+	})
+
 }
 
 func (api *API) DeleteTask(c *gin.Context) {
@@ -179,4 +166,31 @@ func (api *API) Get_Penulis(c *gin.Context) {
 		"data":    penulis,
 	})
 
+}
+
+func (api *API) Search(c *gin.Context) {
+	api.alloworigin(c)
+	search := c.Query("search")
+	task, err := api.adminRepo.SearchTask(search)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"status":  400,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if len(task) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"code":    http.StatusNotFound,
+			"message": "Data tidak ditemukan",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "Berhasil",
+		"data":    task,
+	})
 }

@@ -19,6 +19,7 @@ type Registration struct {
 var jwtKey = []byte("key")
 
 type Claims struct {
+	Id       int `json:"id"`
 	Username string
 	Role     string
 	jwt.StandardClaims
@@ -37,4 +38,19 @@ type UpdateTaskInput struct {
 	Tanggal   string `json:"tanggal"`
 	IdPenulis string `json:"id_Penulis"`
 	Deskripsi string `json:"deskripsi"`
+}
+
+type Result struct {
+	Status     bool        `json:"status"`
+	Code       int         `json:"code"`
+	Message    string      `json:"message"`
+	Data       interface{} `json:"data"`
+	Pagination *Pagination `json:"pagination,omitempty"`
+}
+
+type Pagination struct {
+	Total     int `json:"total"`
+	Page      int `json:"page"`
+	PerPage   int `json:"per_page"`
+	TotalPage int `json:"total_page"`
 }
