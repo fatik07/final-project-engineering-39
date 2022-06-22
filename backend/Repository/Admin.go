@@ -1,6 +1,8 @@
 package repository
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 type AdminRepo struct {
 	db *sql.DB
@@ -11,7 +13,7 @@ func NewTaskRepo(db *sql.DB) *AdminRepo {
 }
 
 func (a *AdminRepo) GetTask() ([]Task, error) {
-	rows, err := a.db.Query(`SELECT * FROM task;`)
+	rows, err := a.db.Query(`SELECT * FROM task`)
 	if err != nil {
 		return []Task{}, err
 	}
@@ -30,7 +32,17 @@ func (a *AdminRepo) GetTask() ([]Task, error) {
 
 	return result, nil
 }
+func (a *AdminRepo) GetTaskById(id int) (Task, error) {
+	row := a.db.QueryRow(`SELECT * FROM task where id=?`, id)
 
+	admin := Task{}
+	err := row.Scan(&admin.Id, &admin.Judul, &admin.Tanggal, &admin.Penulis, &admin.Deskripsi)
+	if err != nil {
+		return admin, err
+	}
+
+	return admin, nil
+}
 func (a *AdminRepo) PutTask(judul string, tanggal string, penulis string, deskripsi string) (int64, error) {
 	sqlStatement := `INSERT INTO task (Judul, Tanggal, Id_Penulis, Deskripsi) VALUES (?, ?, ?, ?);`
 
