@@ -3,7 +3,6 @@ package api
 import (
 	"log"
 	"net/http"
-	con "project/database"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -32,25 +31,6 @@ func (api *API) CreateTask(c *gin.Context) {
 	}
 
 	_, err := api.adminRepo.PutTask(task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	query := `INSERT INTO task (judul, tanggal, Id_Penulis, deskripsi) VALUES (?, ?, ?, ?);`
-	stmt, err := con.DB.Prepare(query)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	_, err = stmt.Exec(task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -91,25 +71,6 @@ func (api *API) UpdateTask(c *gin.Context) {
 	}
 
 	_, err := api.adminRepo.UpdateTask(task.Id, task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	query := `UPDATE task SET judul = ?, tanggal = ?, Id_Penulis = ?, deskripsi = ? WHERE id = ?;`
-	stmt, err := con.DB.Prepare(query)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	_, err = stmt.Exec(task.Judul, task.Tanggal, task.IdPenulis, task.Deskripsi, task.Id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
