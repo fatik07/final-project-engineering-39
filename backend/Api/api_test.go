@@ -91,30 +91,4 @@ var _ = Describe("Api", func() {
 		route.ServeHTTP(w, r)
 		Expect(w.Code).To(Equal(http.StatusOK))
 	})
-
-	It("Should return StatusCode Success(200) Register", func() {
-		// TODO:
-		db, err := sql.Open("sqlite3", "../database/final_project.db")
-		if err != nil {
-			panic(err)
-		}
-		defer db.Close()
-		DB = db
-
-		bodyReader := strings.NewReader(`{"nama": "dian", "username": "dian", "mail": "dian", "password": "dian123","role":"user"}`)
-
-		userRepo := repository.NewUserRepo(db)
-		userAdmin := repository.NewTaskRepo(db)
-
-		route := api.NewAPI(*userRepo, *userAdmin).Handler()
-		w := httptest.NewRecorder()
-		r, err := http.NewRequest("POST", "/Register", bodyReader)
-		if err != nil {
-			log.Fatal(err)
-		}
-		route.ServeHTTP(w, r)
-		fmt.Println(w.Body.String())
-		Expect(w.Code).To(Equal(http.StatusOK))
-	})
-
 })
