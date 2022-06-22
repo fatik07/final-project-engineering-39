@@ -1,6 +1,8 @@
 package repository
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 type UserRepo struct {
 	db *sql.DB
@@ -29,10 +31,30 @@ func (u *UserRepo) LoginUser(username string) (*User, error) {
 	return &user, nil
 }
 
-func (u *UserRepo) RegisterUser(email string) (*User, error) {
-	stmt := `SELECT * FROM user WHERE mail = ?;`
+// func (u *UserRepo) RegisterUser(email string) (*User, error) {
+// 	stmt := `SELECT * FROM user WHERE mail = ?;`
 
-	rows, err := u.db.Query(stmt, email)
+// 	rows, err := u.db.Query(stmt, email)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	var user User
+// 	for rows.Next() {
+// 		err = rows.Scan(&user.Id, &user.Nama, &user.Username, &user.Mail, &user.Password, &user.Role)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 	}
+
+// 	return &user, nil
+// }
+
+func (u *UserRepo) RegisterUser(regis RegisterRequest) (*User, error) {
+	stmt := `INSERT INTO user (username, password, mail, nama ,role) 
+	VALUES (?, ?, ?, ?, ?);`
+
+	rows, err := u.db.Query(stmt, regis.Username, regis.Password, regis.Mail, regis.Nama, regis.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -134,4 +156,13 @@ func (u *UserRepo) GetbukuRow() (int, error) {
 	}
 
 	return total, nil
+}
+
+func (u *UserRepo) DeleteUser(username string) error {
+	_, err := u.db.Exec("DELETE FROM user WHERE username = ?", username)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

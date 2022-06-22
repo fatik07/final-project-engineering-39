@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
-	"project/api"
+	api "project/api"
 	"project/repository"
 	"strings"
 
@@ -68,6 +68,70 @@ var _ = Describe("Api", func() {
 		Expect(adaGkCookies).To(Equal(true))
 
 		cookie = &http.Cookie{Name: "token", Value: loginRespon.Data.Token}
+	})
+
+	It("Register Test", func() {
+		db, err := sql.Open("sqlite3", "../database/final_project.db")
+		if err != nil {
+			panic(err)
+		}
+		defer db.Close()
+		userRepo := repository.NewUserRepo(db)
+		userAdmin := repository.NewTaskRepo(db)
+
+		route := api.NewAPI(*userRepo, *userAdmin).Handler()
+
+		bodyReader := strings.NewReader(`{"nama": "user_test_123","username": "user_test_123", "password": "user_test123", "Mail" : "user_test_123z@email.com"}`)
+		r, err := http.NewRequest("POST", "/Register", bodyReader)
+		w := httptest.NewRecorder()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		route.ServeHTTP(w, r)
+		Expect(w.Code).To(Equal(http.StatusOK))
+
+		// delete user
+		bodyReader = strings.NewReader(`{"username": "user_test_123"}`)
+		r, err = http.NewRequest("DELETE", "/DeleteUser", bodyReader)
+		w = httptest.NewRecorder()
+		if err != nil {
+			log.Fatal(err)
+		}
+		route.ServeHTTP(w, r)
+		Expect(w.Code).To(Equal(http.StatusOK))
+	})
+
+	It("Register admin Test", func() {
+		db, err := sql.Open("sqlite3", "../database/final_project.db")
+		if err != nil {
+			panic(err)
+		}
+		defer db.Close()
+		userRepo := repository.NewUserRepo(db)
+		userAdmin := repository.NewTaskRepo(db)
+
+		route := api.NewAPI(*userRepo, *userAdmin).Handler()
+
+		bodyReader := strings.NewReader(`{"nama": "user_test_1233","username": "user_test_1232", "password": "user_test1232", "Mail" : "user_test_123z2@email.com"}`)
+		r, err := http.NewRequest("POST", "/RegisterAdmin", bodyReader)
+		w := httptest.NewRecorder()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		route.ServeHTTP(w, r)
+		Expect(w.Code).To(Equal(http.StatusOK))
+
+		// delete user
+		bodyReader = strings.NewReader(`{"username": "user_test_1232"}`)
+		r, err = http.NewRequest("DELETE", "/DeleteUser", bodyReader)
+		w = httptest.NewRecorder()
+		if err != nil {
+			log.Fatal(err)
+		}
+		route.ServeHTTP(w, r)
+		Expect(w.Code).To(Equal(http.StatusOK))
 	})
 
 	It("Should return Logout", func() {

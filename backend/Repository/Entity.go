@@ -21,3 +21,15 @@ type Penulis struct {
 	Id   int    `json:"id"`
 	Nama string `json:"nama"`
 }
+
+type RegisterRequest struct {
+	Nama     string `json:"nama"`
+	Username string `json:"username"`
+	Mail     string `json:"mail"`
+	Password string `json:"password"`
+	Role     string `json:"role"`
+}
+
+type DeleteUserReqByUsername struct {
+	Username string `json:"username"`
+}

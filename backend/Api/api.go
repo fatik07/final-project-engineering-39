@@ -33,6 +33,8 @@ func NewAPI(userRepo repository.UserRepo, adminRepo repository.AdminRepo) *API {
 	gin.GET("/GetPenulis", api.Get_Penulis)
 	gin.GET("/MyProfile", api.AuthMiddleWare(api.GetProfile))
 	gin.GET("/Pagination", api.pagination)
+	//buat testing aja with ginkgo :)
+	gin.DELETE("/DeleteUser", api.DeleteUser)
 	return api
 }
 

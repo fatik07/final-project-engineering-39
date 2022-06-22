@@ -9,7 +9,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 
-	con "project/database"
+	repoz "project/repository"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -135,7 +135,7 @@ func (api *API) Register(c *gin.Context) {
 		})
 		return
 	}
-	var reg Registration
+	var reg repoz.RegisterRequest
 
 	err := json.NewDecoder(c.Request.Body).Decode(&reg)
 	if err != nil {
@@ -180,7 +180,11 @@ func (api *API) Register(c *gin.Context) {
 		})
 		return
 	}
-	_, err = api.userRepo.RegisterUser(reg.Mail)
+	password, _ := bcrypt.GenerateFromPassword([]byte(reg.Password), 10)
+	strPassword := string(password)
+	reg.Password = strPassword
+	reg.Role = "user"
+	_, err = api.userRepo.RegisterUser(reg)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -189,28 +193,26 @@ func (api *API) Register(c *gin.Context) {
 		return
 	}
 	//dataUser := *resp
-	password, _ := bcrypt.GenerateFromPassword([]byte(reg.Password), 10)
-	strPassword := string(password)
-	query := `INSERT INTO user (username, password, mail, nama ,role) 
-	VALUES (?, ?, ?, ?, ?);`
+	// query := `INSERT INTO user (username, password, mail, nama ,role)
+	// VALUES (?, ?, ?, ?, ?);`
 
-	stmt, err := con.DB.Prepare(query)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
+	// stmt, err := con.DB.Prepare(query)
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"code":    http.StatusInternalServerError,
+	// 		"message": err.Error(),
+	// 	})
+	// 	return
+	// }
 
-	_, err = stmt.Exec(reg.Username, strPassword, reg.Mail, reg.Nama, "user")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
+	// _, err = stmt.Exec(reg.Username, strPassword, reg.Mail, reg.Nama, "user")
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"code":    http.StatusInternalServerError,
+	// 		"message": err.Error(),
+	// 	})
+	// 	return
+	// }
 	c.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
 		"message": "Register Success",
@@ -232,7 +234,7 @@ func (api *API) RegisterAdmin(c *gin.Context) {
 		return
 	}
 
-	var reg Registration
+	var reg repoz.RegisterRequest
 
 	err := json.NewDecoder(c.Request.Body).Decode(&reg)
 	if err != nil {
@@ -268,31 +270,20 @@ func (api *API) RegisterAdmin(c *gin.Context) {
 		})
 		return
 	}
-
-	_, err = api.userRepo.RegisterUser(reg.Mail)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
+	//dataUser := *resp
+	check, _ := api.userRepo.CheckAccount(reg.Username, reg.Mail)
+	if check.Id != 0 {
+		c.JSON(400, gin.H{
+			"code":    400,
+			"message": "akun sudah ada",
 		})
 		return
 	}
-	//dataUser := *resp
 	password, _ := bcrypt.GenerateFromPassword([]byte(reg.Password), 10)
 	strPassword := string(password)
-	query := `INSERT INTO user (username, password, mail, nama ,role) 
-	VALUES (?, ?, ?, ?, ?);`
-
-	stmt, err := con.DB.Prepare(query)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	_, err = stmt.Exec(reg.Username, strPassword, reg.Mail, reg.Nama, "admin")
+	reg.Password = strPassword
+	reg.Role = "admin"
+	_, err = api.userRepo.RegisterUser(reg)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -468,5 +459,32 @@ func (api *API) pagination(c *gin.Context) {
 			PerPage:   perPage,
 			TotalPage: totalPage,
 		},
+	})
+}
+
+func (api *API) DeleteUser(c *gin.Context) {
+	api.alloworigin(c)
+	var del repoz.DeleteUserReqByUsername
+
+	err := json.NewDecoder(c.Request.Body).Decode(&del)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": "Invalid request body",
+		})
+		return
+	}
+
+	err = api.userRepo.DeleteUser(del.Username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code":    http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "berhasil",
 	})
 }
