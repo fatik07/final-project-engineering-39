@@ -103,3 +103,23 @@ func (a *AdminRepo) GetPenulis() ([]Penulis, error) {
 
 	return result, nil
 }
+
+func (a *AdminRepo) SearchTask(search string) ([]*Task, error) {
+	rows, err := a.db.Query("SELECT t.id, t.Judul, t.Tanggal, p.nama, t.Deskripsi FROM task t INNER JOIN penulis p ON t.Id_Penulis = p.id WHERE t.Judul LIKE ?", "%"+search+"%")
+	if err != nil {
+		return []*Task{}, err
+	}
+
+	defer rows.Close()
+
+	var tasks []*Task
+	for rows.Next() {
+		var task Task
+		err = rows.Scan(&task.Id, &task.Judul, &task.Tanggal, &task.Penulis, &task.Deskripsi)
+		if err != nil {
+			return nil, err
+		}
+		tasks = append(tasks, &task)
+	}
+	return tasks, nil
+}

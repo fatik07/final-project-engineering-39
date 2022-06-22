@@ -2,6 +2,8 @@ package api_test
 
 import (
 	"database/sql"
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -15,6 +17,20 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+type TokenStr struct {
+	Token string `json:"token"`
+}
+type loginRespon struct {
+	Code    int      `json:"code"`
+	Data    TokenStr `json:"data"`
+	Message string   `json:"message"`
+}
+
+var cookie *http.Cookie
+var mainApi *api.API
+
+var DB *sql.DB
+
 var _ = Describe("Api", func() {
 	It("Should return Data User when get user", func() {
 		db, err := sql.Open("sqlite3", "../database/final_project.db")
@@ -22,8 +38,9 @@ var _ = Describe("Api", func() {
 			panic(err)
 		}
 		defer db.Close()
+		DB = db
 
-		bodyReader := strings.NewReader(`{"username": "lisa17", "password": "lisa"}`)
+		bodyReader := strings.NewReader(`{"username": "nanda", "password": "nanda"}`)
 
 		userRepo := repository.NewUserRepo(db)
 		userAdmin := repository.NewTaskRepo(db)
@@ -35,38 +52,44 @@ var _ = Describe("Api", func() {
 			log.Fatal(err)
 		}
 		route.ServeHTTP(w, r)
+		fmt.Println(w.Body.String())
 		Expect(w.Code).To(Equal(http.StatusOK))
-		cookies := w.Result().Cookies()
+		var loginRespon loginRespon
 
-		var adaGkCookies bool
-		for _, c := range cookies {
-			if c.Name == "token" {
-				adaGkCookies = true
-				break
-			}
+		err = json.Unmarshal([]byte(w.Body.String()), &loginRespon)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		var adaGkCookies bool = false
+		if loginRespon.Data.Token != "" {
+			adaGkCookies = true
 		}
 		Expect(adaGkCookies).To(Equal(true))
 
+		cookie = &http.Cookie{Name: "token", Value: loginRespon.Data.Token}
 	})
 
-	It("Should return failed login", func() {
+	It("Should return Logout", func() {
 		db, err := sql.Open("sqlite3", "../database/final_project.db")
 		if err != nil {
 			panic(err)
 		}
 		defer db.Close()
-
-		bodyReader := strings.NewReader(`{"username": "lisa172", "password": "lisa2"}`)
 		userRepo := repository.NewUserRepo(db)
 		userAdmin := repository.NewTaskRepo(db)
+
 		route := api.NewAPI(*userRepo, *userAdmin).Handler()
+		r, err := http.NewRequest("POST", "/Logout", nil)
 		w := httptest.NewRecorder()
-		r, err := http.NewRequest("POST", "/Login", bodyReader)
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		r.AddCookie(cookie)
+
 		route.ServeHTTP(w, r)
-		Expect(w.Code).To(Equal(http.StatusUnauthorized))
+		Expect(w.Code).To(Equal(http.StatusOK))
 	})
 
 })

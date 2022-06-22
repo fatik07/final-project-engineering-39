@@ -85,3 +85,53 @@ func (u *UserRepo) GetProfile(username string) (*User, error) {
 
 	return &user, nil
 }
+
+func (u *UserRepo) Allbuku(limit int, offset int) ([]Task, error) {
+	sqlStmt := `
+	SELECT
+		g.Id AS id,
+		g.judul AS judul,
+		g.tanggal AS tanggal,
+		g.id_penulis AS id_penulis,
+		g.deskripsi AS deskripsi
+	FROM
+		task AS g
+	JOIN penulis AS u ON (u.id = g.id_penulis)
+	LIMIT ?
+	OFFSET ?
+	`
+
+	rows, err := u.db.Query(sqlStmt, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	books := []Task{}
+	for rows.Next() {
+		var book Task
+		err := rows.Scan(
+			&book.Id,
+			&book.Judul,
+			&book.Tanggal,
+			&book.Penulis,
+			&book.Deskripsi,
+		)
+		if err != nil {
+			return nil, err
+		}
+		books = append(books, book)
+	}
+	return books, nil
+}
+
+func (u *UserRepo) GetbukuRow() (int, error) {
+	sqlStmt := `SELECT COUNT(*) FROM task`
+	var total int
+	err := u.db.QueryRow(sqlStmt).Scan(&total)
+	if err != nil {
+		return total, err
+	}
+
+	return total, nil
+}

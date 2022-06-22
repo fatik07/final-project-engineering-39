@@ -126,6 +126,10 @@ func (api *API) UpdateTask(c *gin.Context) {
 
 func (api *API) GetTask(c *gin.Context) {
 	api.alloworigin(c)
+	if c.Query("search") != "" {
+		api.Search(c)
+		return
+	}
 	task, err := api.adminRepo.GetTask()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -179,4 +183,31 @@ func (api *API) Get_Penulis(c *gin.Context) {
 		"data":    penulis,
 	})
 
+}
+
+func (api *API) Search(c *gin.Context) {
+	api.alloworigin(c)
+	search := c.Query("search")
+	task, err := api.adminRepo.SearchTask(search)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"status":  400,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if len(task) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"code":    http.StatusNotFound,
+			"message": "Data tidak ditemukan",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "Berhasil",
+		"data":    task,
+	})
 }

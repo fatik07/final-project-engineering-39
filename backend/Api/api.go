@@ -31,6 +31,7 @@ func NewAPI(userRepo repository.UserRepo, adminRepo repository.AdminRepo) *API {
 	gin.DELETE("/Delete", api.DeleteTask)
 	gin.GET("/GetPenulis", api.Get_Penulis)
 	gin.GET("/MyProfile", api.AuthMiddleWare(api.GetProfile))
+	gin.GET("/Pagination", api.pagination)
 	return api
 }
 

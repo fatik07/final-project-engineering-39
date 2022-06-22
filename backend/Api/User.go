@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"net/http"
 	"time"
 
@@ -384,5 +385,88 @@ func (api *API) GetProfile(c *gin.Context) {
 		"code":    http.StatusOK,
 		"message": "berhasil",
 		"data":    dataProfile,
+	})
+}
+
+func (api *API) pagination(c *gin.Context) {
+	api.alloworigin(c)
+	var (
+		page    int
+		perPage int
+		offset  int
+		total   int
+		message string
+		isError bool
+	)
+
+	params := c.Request.URL.Query()
+
+	_, err := fmt.Sscan(params.Get("per_page"), &perPage)
+	_, err = fmt.Sscan(params.Get("page"), &page)
+
+	if err != nil && err.Error() != "EOF" {
+		c.JSON(http.StatusBadRequest, Result{
+			Status:  false,
+			Code:    http.StatusBadRequest,
+			Message: "Throw a param with the value convertible to a number, ERROR: " + err.Error(),
+			Data:    []string{},
+		})
+		return
+	}
+
+	//Perhalaman nya
+
+	if perPage == 0 {
+		perPage = 50
+	}
+
+	if page == 0 {
+		page = 1
+	}
+
+	offset = (page - 1) * perPage
+
+	defer func() {
+		if isError {
+			c.JSON(http.StatusInternalServerError, Result{
+				Status:  false,
+				Code:    http.StatusInternalServerError,
+				Message: "Failed to fetch teachers, ERROR: " + message,
+				Data:    nil,
+			})
+			return
+		}
+	}()
+
+	teachers, err := api.userRepo.Allbuku(perPage, offset)
+	if err != nil {
+		isError = true
+		message = err.Error()
+		return
+	}
+
+	total, err = api.userRepo.GetbukuRow()
+	if err != nil {
+		isError = true
+		message = err.Error()
+		return
+	}
+
+	totalPage := 1
+	if total > perPage {
+		totalPage = int(math.Ceil(float64(total) / float64(perPage)))
+	}
+
+	c.JSON(http.StatusOK, Result{
+		Status:  true,
+		Code:    http.StatusOK,
+		Message: "Success",
+		Data:    teachers,
+		Pagination: &Pagination{
+			Total:     total,
+			Page:      page,
+			PerPage:   perPage,
+			TotalPage: totalPage,
+		},
 	})
 }
