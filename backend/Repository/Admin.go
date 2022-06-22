@@ -43,6 +43,7 @@ func (a *AdminRepo) GetTaskById(id int) (Task, error) {
 
 	return admin, nil
 }
+
 func (a *AdminRepo) PutTask(judul string, tanggal string, penulis string, deskripsi string) (int64, error) {
 	sqlStatement := `INSERT INTO task (Judul, Tanggal, Id_Penulis, Deskripsi) VALUES (?, ?, ?, ?);`
 
