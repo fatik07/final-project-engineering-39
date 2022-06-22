@@ -7,6 +7,8 @@ import Register from "./pages/Register";
 // import { BrowserRouter as RouterRoutes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Books from "./pages/books/Books";
+import DetailBooks from "./pages/books/DetailBooks";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
       <Route exact path="/" element={<Login />} />
       <Route exact path="/register" element={<Register />} />
       <Route exact path="/home" element={<Home />} />
+      <Route exact path="/books" element={<Books />} />
+      <Route exact path="/books/:id" element={<DetailBooks />} />
       <Route exact path="/admin" element={<h1>ini halaman Admin</h1>} />
       <Route path="*" element={<h1>404 Not Found</h1>} />
     </Routes>
