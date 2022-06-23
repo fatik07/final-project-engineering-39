@@ -1,59 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import img from "../../../assets/img/regisImg.png";
 import "./Navbar_Regis.css";
 
 export default function Navbar() {
+  const [nama, setNama] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [mail, setMail] = useState("");
+
+  const submit = async (e) => {
+    e.preventDefault();
+
+    const respone = await fetch("http://localhost:8008/Register", {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nama,
+        username,
+        password,
+        mail,
+      }),
+    });
+
+    const content = await respone.json();
+    console.log(content);
+  };
+
   return (
     <div className="container">
-      <div class="row">
+      <div className="row">
         <div className="col">
           <span className="text-ladang1">Ladang </span>
           <span className="text-materi1">Materi</span>
         </div>
-        <div class="col-6">
+        <div className="col-6">
           <div className="img-con">
             <img src={img} alt="regis photo" />
           </div>
 
-          <form>
-            <div class="form-group row mb-3">
-              <label for="inputName" class="col-sm-2 col-form-label">
+          <form onSubmit={submit}>
+            <div className="form-group row mb-3">
+              <label htmlFor="inputName" className="col-sm-2 col-form-label">
                 Full Name
               </label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputName" placeholder="name"></input>
+              <div className="col-sm-10">
+                <input type="text" className="form-control" name="nama" id="inputName" placeholder="name" onChange={(e) => setNama(e.target.value)}></input>
               </div>
             </div>
 
-            <div class="form-group row mb-3">
-              <label for="inputUsername" class="col-sm-2 col-form-label">
+            <div className="form-group row mb-3">
+              <label htmlFor="inputUsername" className="col-sm-2 col-form-label">
                 Username
               </label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputUsername" placeholder="username"></input>
+              <div className="col-sm-10">
+                <input type="text" className="form-control" name="username" id="inputUsername" placeholder="username" onChange={(e) => setUsername(e.target.value)}></input>
               </div>
             </div>
 
-            <div class="form-group row mb-3">
-              <label for="inputPassword3" class="col-sm-2 col-form-label">
+            <div className="form-group row mb-3">
+              <label htmlFor="inputPassword3" className="col-sm-2 col-form-label">
                 Password
               </label>
-              <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="password"></input>
+              <div className="col-sm-10">
+                <input type="password" className="form-control" name="password" id="inputPassword3" placeholder="password" onChange={(e) => setPassword(e.target.value)}></input>
               </div>
             </div>
 
-            <div class="form-group row mb-3">
-              <label for="inputEmail" class="col-sm-2 col-form-label">
+            <div className="form-group row mb-3">
+              <label htmlFor="inputEmail" className="col-sm-2 col-form-label">
                 Email
               </label>
-              <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail" placeholder="email" required></input>
+              <div className="col-sm-10">
+                <input type="email" className="form-control" name="mail" id="inputEmail" placeholder="email" required onChange={(e) => setMail(e.target.value)}></input>
               </div>
             </div>
 
             <div className="buttonRegister">
-              <button type="button" class="btn btn-success">
+              <button type="submit" className="btn btn-success">
                 Register
               </button>
             </div>

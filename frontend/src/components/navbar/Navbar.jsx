@@ -21,25 +21,13 @@ export default function Navbar() {
             <span className="text-ladang">Ladang </span>
             <span className="text-materi">Materi</span>
           </NavLink>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto me-5 mb-2 mb-lg-0">
               <li className="nav-item px-2">
-                <NavLink
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/home"
-                >
+                <NavLink className="nav-link active" aria-current="page" to="/home">
                   Home
                 </NavLink>
               </li>
@@ -63,20 +51,13 @@ export default function Navbar() {
                   <NavLink to="login">Sign In</NavLink>
                 </button>
               </li> */}
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Hii, User
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <NavLink class="dropdown-item" to="/logout">
+                    <NavLink className="dropdown-item" to="/logout">
                       Logout
                     </NavLink>
                   </li>
