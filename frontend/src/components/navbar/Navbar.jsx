@@ -36,7 +36,8 @@ export default function Navbar() {
             <ul className="navbar-nav ms-auto me-5 mb-2 mb-lg-0">
               <li className="nav-item px-2">
                 <NavLink
-                  className="nav-link active"
+                  exact
+                  className="nav-link"
                   aria-current="page"
                   to="/home"
                 >
@@ -54,7 +55,7 @@ export default function Navbar() {
                 </a>
               </li>
               <li className="nav-item px-2">
-                <NavLink className="nav-link" to="#">
+                <NavLink className="nav-link" to="/contact">
                   Contact
                 </NavLink>
               </li>
