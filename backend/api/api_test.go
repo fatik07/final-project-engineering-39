@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
-	api "project/Api"
+	api "project/api"
 	repository "project/repository"
 	"strings"
 
@@ -32,10 +32,10 @@ var DB *sql.DB
 
 var responseLogin loginRespon
 
-var _ = Describe("Api", func() {
+var _ = Describe("api", func() {
 
 	BeforeEach(func() {
-		db, err := sql.Open("sqlite3", "../Database/final_project2.db")
+		db, err := sql.Open("sqlite3", "../database/final_project2.db")
 		if err != nil {
 			panic(err)
 		}
@@ -78,7 +78,7 @@ var _ = Describe("Api", func() {
 	})
 
 	AfterEach(func() {
-		db, err := sql.Open("sqlite3", "../Database/final_project2.db")
+		db, err := sql.Open("sqlite3", "../database/final_project2.db")
 		if err != nil {
 			panic(err)
 		}
