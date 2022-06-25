@@ -1,31 +1,70 @@
 import React from "react";
-import { useContext, useState, useEffect } from 'react';
-import {MateriContext} from '../adminPage/MateriContext'
+import { useState } from "react";
 import "./AdminPage.css";
-import { Modal, Button } from "react-bootstrap";
-import EditMateri from '../adminPage/EditMateri'
+import Modal from "react-modal";
 
-const AdminPage= ({AdminPage}) => {
+Modal.setAppElement("#root");
+
+const AdminPage = () => {
   const [toggleState, setToggleState] = useState(1);
+  const [mopen, setMopen] = useState(false);
 
   const toggleTab = (index) => {
     setToggleState(index);
+  };
 
-  const {deleteAdminPage} = useContext(MateriContext);
-  
-  const {show, setShow} = useState(false);
-
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
-  
-
-  useEffect(()=> {
-    handleClose()
-  }, [AdminPage])
-
-   
   return (
     <>
+      <Modal
+        isOpen={mopen}
+        onRequestClose={() => setMopen(false)}
+        style={{
+          overlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "grey",
+          },
+          content: {
+            position: "absolute",
+            top: "100px",
+            left: "80px",
+            right: "80px",
+            bottom: "70px",
+            border: "1px solid #ccc",
+            background: "#fff",
+            overflow: "auto",
+            WebkitOverflowScrolling: "touch",
+            borderRadius: "4px",
+            outline: "none",
+            padding: "20px",
+          },
+        }}
+      >
+        <h1 className="text-center">Edit</h1>
+        <p>
+          <label htmlFor="inputJudul3" className="col-sm-3 col-form-label">
+            Judul
+          </label>
+          <input type="text" class="form-control" id="judul"></input>
+
+          <label htmlFor="inputPenulis3" className="col-sm-3 col-form-label">
+            Penulis
+          </label>
+          <input type="text" class="form-control" id="penulis"></input>
+
+          <label htmlFor="inputDeskripsi3" className="col-sm-3 col-form-label">
+            Deskripsi
+          </label>
+          <input type="text" class="form-control" id="deskripsi"></input>
+
+          <button className="btn btn-success-custom" onClick={() => setMopen(false)}>
+            Close
+          </button>
+        </p>
+      </Modal>
       <div className="container">
         <div className="bloc-tabs">
           <button className={toggleState === 1 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(1)}>
@@ -60,30 +99,13 @@ const AdminPage= ({AdminPage}) => {
                   <td>Tatang Nurjaman</td>
                   <td>Math</td>
                   <td>
-                    <button onClick={handleShow} type="button" class="btn btn-warning me-2" data-toggle="modal">
+                    <button type="button" class="btn btn-warning me-2" onClick={() => setMopen(true)}>
                       Edit
                     </button>
                     <button type="button" class="btn btn-danger" data-toggle="modal">
                       Delete
                     </button>
                   </td>
-                  <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>
-                    Edit materi
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <EditMateri theAdminPage={AdminPage} />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                      Close Button
-                    </Button>
-                </Modal.Footer>
-                  </Modal>
-                  
-
                 </tr>
                 <tr>
                   <th scope="row">2</th>
@@ -92,7 +114,7 @@ const AdminPage= ({AdminPage}) => {
                   <td>John Doe</td>
                   <td>English</td>
                   <td>
-                    <button onClick={handleShow} type="button" class="btn btn-warning me-2">
+                    <button type="button" class="btn btn-warning me-2" onClick={() => setMopen(true)}>
                       Edit
                     </button>
                     <button type="button" class="btn btn-danger">
@@ -107,28 +129,13 @@ const AdminPage= ({AdminPage}) => {
                   <td>James Morris</td>
                   <td>Fabel</td>
                   <td>
-                    <button  onClick={handleShow} type="button" class="btn btn-warning me-2">
+                    <button type="button" class="btn btn-warning me-2" onClick={() => setMopen(true)}>
                       Edit
                     </button>
                     <button type="button" class="btn btn-danger">
                       Delete
                     </button>
                   </td>
-                  <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>
-                    Edit materi
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <EditMateri theAdminPage={AdminPage} />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                      Close Button
-                    </Button>
-                </Modal.Footer>
-                  </Modal>
                 </tr>
               </tbody>
             </table>
@@ -174,5 +181,5 @@ const AdminPage= ({AdminPage}) => {
       </div>
     </>
   );
-}
+};
 export default AdminPage;
