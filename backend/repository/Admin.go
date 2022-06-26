@@ -63,7 +63,7 @@ func (a *AdminRepo) GetTaskById(id int) (Task, error) {
 	return admin, nil
 }
 
-func (a *AdminRepo) PutTask(judul string, tanggal string, penulis string, deskripsi string) (int64, error) {
+func (a *AdminRepo) PutTask(judul string, tanggal string, penulis int, deskripsi string) (int64, error) {
 	sqlStatement := `INSERT INTO task (Judul, Tanggal, Id_Penulis, Deskripsi) VALUES (?, ?, ?, ?);`
 
 	stmt, err := a.db.Prepare(sqlStatement)
@@ -80,7 +80,7 @@ func (a *AdminRepo) PutTask(judul string, tanggal string, penulis string, deskri
 
 	return result.LastInsertId()
 }
-func (a *AdminRepo) UpdateTask(id int, judul string, tanggal string, penulis string, deskripsi string) (int64, error) {
+func (a *AdminRepo) UpdateTask(id int, judul string, tanggal string, penulis int, deskripsi string) (int64, error) {
 	sqlStatement := `UPDATE task SET Judul = ?, Tanggal = ?, Id_Penulis = ?, Deskripsi = ? WHERE id = ?;`
 
 	stmt, err := a.db.Prepare(sqlStatement)
