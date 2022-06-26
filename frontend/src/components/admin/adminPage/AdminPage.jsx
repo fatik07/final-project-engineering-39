@@ -20,50 +20,49 @@ const AdminPage = () => {
         onRequestClose={() => setMopen(false)}
         style={{
           overlay: {
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "grey",
+            backgroun: "transparent !important",
           },
           content: {
-            position: "absolute",
-            top: "100px",
-            left: "80px",
-            right: "80px",
-            bottom: "70px",
-            border: "1px solid #ccc",
-            background: "#fff",
-            overflow: "auto",
-            WebkitOverflowScrolling: "touch",
-            borderRadius: "4px",
-            outline: "none",
-            padding: "20px",
+            top: "50%",
+            left: "50%",
+            right: "50%",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            width: "60",
           },
         }}
       >
         <h1 className="text-center">Edit</h1>
-        <p>
+        <div className="row"></div>
+        <div className="col"></div>
+        <form>
+          <div className="mb-2"></div>
           <label htmlFor="inputJudul3" className="col-sm-3 col-form-label">
             Judul
           </label>
-          <input type="text" class="form-control" id="judul"></input>
+          <input type="text" class="form-control" id="judul" placeholder="judul"></input>
 
+          <div className="mb-2"></div>
           <label htmlFor="inputPenulis3" className="col-sm-3 col-form-label">
             Penulis
           </label>
-          <input type="text" class="form-control" id="penulis"></input>
+          <input type="text" class="form-control" id="penulis" placeholder="penulis"></input>
 
+          <div className="mb-2"></div>
           <label htmlFor="inputDeskripsi3" className="col-sm-3 col-form-label">
             Deskripsi
           </label>
-          <input type="text" class="form-control" id="deskripsi"></input>
+          <input type="text" class="form-control" id="deskripsi" placeholder="deskripsi"></input>
 
-          <button className="btn btn-success-custom" onClick={() => setMopen(false)}>
-            Close
-          </button>
-        </p>
+          <div className="col-sm-3">
+            <input type="submit" className="btn btn-success-custom" name="edit" value="Edit" />
+          </div>
+
+          <div className="mb-3">
+            <input type="submit" className="btn btn-secondary" name="batal" value="Batal" />
+          </div>
+        </form>
       </Modal>
       <div className="container">
         <div className="bloc-tabs">
