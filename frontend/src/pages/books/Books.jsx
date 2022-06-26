@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { NavLink } from "react-router-dom";
+import GetCookie from "../../hooks/GetCookie";
+import axios from "axios";
 
 export default function Books() {
   const [articles, setArticles] = useState([]);
@@ -11,9 +13,11 @@ export default function Books() {
     async function fetchData() {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:8008/Get");
-        const data = await res.json();
-        setArticles(data.data);
+        const res = await axios.get("http://localhost:8008/Get", {
+          withCredentials: true,
+        });
+        // const data = await res.data;
+        setArticles(res.data.data);
 
         setLoading(false);
       } catch (error) {
@@ -22,6 +26,7 @@ export default function Books() {
       }
     }
     fetchData();
+    GetCookie("token");
   }, []);
 
   return (
