@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { useParams, NavLink } from "react-router-dom";
+import axios from "axios";
 
 export default function Books() {
   const { id } = useParams();
@@ -10,9 +11,14 @@ export default function Books() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`http://localhost:8008/GetTaskById?id=${id}`);
-        const data = await res.json();
-        setArticle(data.data);
+        const res = await axios.get(
+          `http://localhost:8008/GetTaskById?id=${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        // const data = await res.data.data;
+        setArticle(res.data.data);
       } catch (error) {
         console.log(error);
       }
