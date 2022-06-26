@@ -27,7 +27,8 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto me-5 mb-2 mb-lg-0">
               <li className="nav-item px-2">
-                <NavLink className="nav-link active" aria-current="page" to="/home">
+                <NavLink className="nav-link active" aria-current="page" to="/home"></NavLink>
+                <NavLink exact className="nav-link" aria-current="page" to="/home">
                   Home
                 </NavLink>
               </li>
@@ -42,7 +43,7 @@ export default function Navbar() {
                 </a>
               </li>
               <li className="nav-item px-2">
-                <NavLink className="nav-link" to="#">
+                <NavLink className="nav-link" to="/contact">
                   Contact
                 </NavLink>
               </li>

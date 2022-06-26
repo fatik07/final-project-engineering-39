@@ -192,27 +192,6 @@ func (api *API) Register(c *gin.Context) {
 		})
 		return
 	}
-	//dataUser := *resp
-	// query := `INSERT INTO user (username, password, mail, nama ,role)
-	// VALUES (?, ?, ?, ?, ?);`
-
-	// stmt, err := con.DB.Prepare(query)
-	// if err != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{
-	// 		"code":    http.StatusInternalServerError,
-	// 		"message": err.Error(),
-	// 	})
-	// 	return
-	// }
-
-	// _, err = stmt.Exec(reg.Username, strPassword, reg.Mail, reg.Nama, "user")
-	// if err != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{
-	// 		"code":    http.StatusInternalServerError,
-	// 		"message": err.Error(),
-	// 	})
-	// 	return
-	// }
 	c.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
 		"message": "Register Success",

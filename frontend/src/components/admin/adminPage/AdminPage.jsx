@@ -101,7 +101,7 @@ const AdminPage = () => {
                     <button type="button" class="btn btn-warning me-2" onClick={() => setMopen(true)}>
                       Edit
                     </button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal">
+                    <button type="button" class="btn btn-danger">
                       Delete
                     </button>
                   </td>
