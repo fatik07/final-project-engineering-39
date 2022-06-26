@@ -8,6 +8,7 @@ import jwt_decode from "jwt-decode";
 export default function Navbar() {
   let navigate = useNavigate();
   const [name, setName] = useState("");
+  const [role, setRole] = useState("");
 
   // effect shadow navbar
   window.addEventListener("scroll", (e) => {
@@ -26,6 +27,12 @@ export default function Navbar() {
     let decodedHeader = jwt_decode(token);
     let name = decodedHeader.Username;
     setName(name);
+  }, []);
+
+  useEffect(() => {
+    let decodedRole = jwt_decode(token);
+    let role = decodedRole.Role;
+    setRole(role);
   }, []);
 
   useEffect(() => {
@@ -91,6 +98,16 @@ export default function Navbar() {
                   Contact
                 </a>
               </li>
+              {
+                // jika role admin
+                role === "admin" && (
+                  <li className="nav-item px-2">
+                    <NavLink className="nav-link" to="/admin">
+                      Admin
+                    </NavLink>
+                  </li>
+                )
+              }
 
               <li className="nav-item dropdown">
                 <a
