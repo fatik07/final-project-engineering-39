@@ -1,8 +1,14 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
+import GetCookie from "../../hooks/GetCookie";
+import RemoveCookie from "../../hooks/RemoveCookie";
+import jwt_decode from "jwt-decode";
 
 export default function Navbar() {
+  let navigate = useNavigate();
+  const [name, setName] = useState("");
+
   // effect shadow navbar
   window.addEventListener("scroll", (e) => {
     const nav = document.querySelector(".navbar-custom");
@@ -13,11 +19,37 @@ export default function Navbar() {
     }
   });
 
+  // const token = localStorage.getItem("token");
+  const token = GetCookie("token");
+
+  useEffect(() => {
+    let decodedHeader = jwt_decode(token);
+    let name = decodedHeader.Username;
+    setName(name);
+  }, []);
+
+  useEffect(() => {
+    //check token empty
+    if (!token) {
+      //redirect login page
+      return navigate("/", { replace: true });
+    }
+  }, []);
+
+  const logoutHanlder = async () => {
+    // remove token
+    RemoveCookie("token");
+    // console.log(token)
+
+    //redirect halaman login
+    navigate("/", { replace: true });
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg py-3 fixed-top navbar-custom">
         <div className="container-fluid">
-          <NavLink className="navbar-brand ms-5 navbar-brand-custom" to="/">
+          <NavLink className="navbar-brand ms-5 navbar-brand-custom" to="/home">
             <span className="text-ladang">Ladang </span>
             <span className="text-materi">Materi</span>
           </NavLink>
@@ -36,7 +68,8 @@ export default function Navbar() {
             <ul className="navbar-nav ms-auto me-5 mb-2 mb-lg-0">
               <li className="nav-item px-2">
                 <NavLink
-                  className="nav-link active"
+                  exact
+                  className="nav-link"
                   aria-current="page"
                   to="/home"
                 >
@@ -49,37 +82,41 @@ export default function Navbar() {
                 </NavLink>
               </li>
               <li className="nav-item px-2">
-                <a href="#about" className="nav-link">
+                <a href="#" className="nav-link">
                   About
                 </a>
               </li>
               <li className="nav-item px-2">
-                <NavLink className="nav-link" to="#">
+                <a href="#" className="nav-link">
                   Contact
-                </NavLink>
+                </a>
               </li>
-              {/* <li className="nav-item ps-3">
-                <button class="btn btn-success-custom" type="submit">
-                  <NavLink to="login">Sign In</NavLink>
-                </button>
-              </li> */}
-              <li class="nav-item dropdown">
+
+              <li className="nav-item dropdown">
                 <a
-                  class="nav-link dropdown-toggle"
+                  className="nav-link dropdown-toggle"
                   href="#"
                   id="navbarDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Hii, User
+                  Hii, {name}
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <NavLink class="dropdown-item" to="/logout">
-                      Logout
-                    </NavLink>
-                  </li>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {token ? (
+                    <li>
+                      <button onClick={logoutHanlder} className="dropdown-item">
+                        Logout
+                      </button>
+                    </li>
+                  ) : (
+                    <li>
+                      <button onClick={logoutHanlder} className="dropdown-item">
+                        Login
+                      </button>
+                    </li>
+                  )}
                 </ul>
               </li>
             </ul>

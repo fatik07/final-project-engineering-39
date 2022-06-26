@@ -87,10 +87,40 @@ func (api *API) AuthMiddleWare(next gin.HandlerFunc) gin.HandlerFunc {
 func (api *API) AdminMiddleware(next gin.HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		api.alloworigin(c)
-		role := c.Value("role")
-		if role != "admin" {
+
+		token, _ := c.Request.Cookie("token")
+
+		tknStr := token.Value
+
+		claims := &Claims{}
+
+		_, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+			return jwtKey, nil
+		})
+
+		if err != nil {
+			if err == jwt.ErrSignatureInvalid {
+				c.Writer.WriteHeader(http.StatusUnauthorized)
+				c.JSON(http.StatusUnauthorized, gin.H{
+					"status":  "false",
+					"code":    http.StatusUnauthorized,
+					"message": err.Error(),
+				})
+				return
+			}
+			c.Writer.WriteHeader(http.StatusBadRequest)
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"status":  "false",
+				"code":    http.StatusUnauthorized,
+				"message": err.Error(),
+			})
+			return
+		}
+
+		if claims.Role != "admin" {
 			c.Writer.WriteHeader(http.StatusForbidden)
 			c.JSON(http.StatusForbidden, gin.H{
+				"status":  "false",
 				"code":    http.StatusForbidden,
 				"message": "forbidden access",
 			})

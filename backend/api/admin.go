@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -10,6 +11,19 @@ import (
 
 func (api *API) CreateTask(c *gin.Context) {
 	api.alloworigin(c)
+	if c.Request.Method == "OPTIONS" {
+		fmt.Println(c.Request.Method)
+		c.Writer.WriteHeader(http.StatusOK)
+		return
+	}
+
+	if c.Request.Method != "POST" {
+		c.JSON(400, gin.H{
+			"status":  400,
+			"message": "Method Not Allowed",
+		})
+		return
+	}
 	var task CreateTaskInput
 	if err := c.ShouldBindJSON(&task); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -22,7 +36,7 @@ func (api *API) CreateTask(c *gin.Context) {
 	} else if task.Tanggal == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Tanggal tidak boleh kosong"})
 		return
-	} else if task.IdPenulis == "" {
+	} else if task.IdPenulis == 0 {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Penulis tidak boleh kosong"})
 		return
 	} else if task.Deskripsi == "" {
@@ -62,7 +76,7 @@ func (api *API) UpdateTask(c *gin.Context) {
 	} else if task.Tanggal == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Tanggal tidak boleh kosong"})
 		return
-	} else if task.IdPenulis == "" {
+	} else if task.IdPenulis == 0 {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Penulis tidak boleh kosong"})
 		return
 	} else if task.Deskripsi == "" {
