@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import About from "../components/about/About";
 import PopularBooks from "../components/recent book/RecentBooks";
 import Footer from "../components/footer/Footer";
@@ -7,7 +8,6 @@ import Navbar from "../components/navbar/Navbar";
 import Sponsor from "../components/sponsor/Sponsor";
 import axios from "axios";
 import GetCookie from "../hooks/GetCookie";
-import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [articles, setArticles] = useState([]);
@@ -22,6 +22,7 @@ function Home() {
     }
   }, []);
 
+  // fetch api
   useEffect(() => {
     const fetchArticle = async () => {
       try {
