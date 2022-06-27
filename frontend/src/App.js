@@ -13,19 +13,11 @@ function App() {
   const cek = {
     token: GetCookie("token"),
   };
-  // console.log(cek);
 
   return (
     <Routes>
       <Route index element={<Login />} />
       <Route path="register" element={<Register />} />
-
-      {/* cek home */}
-      {/* {cek.token ? (
-        <Route path="/home" element={<Home />} />
-      ) : (
-        <Route index element={<Login />} />
-      )} */}
 
       <Route path="/home" element={<Home />} />
 
@@ -41,12 +33,6 @@ function App() {
           cek.token ? <DetailBooks /> : <Navigate to="/" replace={true} />
         }
       />
-
-      {/* {cek.token ? (
-        <Route path="/admin" element={<Admin />} />
-      ) : (
-        <Route index element={<Login />} />
-      )} */}
 
       <Route path="/admin" element={<Admin />} />
 
