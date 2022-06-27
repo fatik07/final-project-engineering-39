@@ -20,12 +20,9 @@ export default function Navbar() {
     }
   });
 
-  // const token = localStorage.getItem("token");
+  // get token
   const token = GetCookie("token");
-  // console.log(cek);
-  // ambil data dengan jwt token
-  // let decodedHeader = jwt_decode(token);
-  // console.log(decodedHeader);
+
   useEffect(() => {
     let decodedHeader = jwt_decode(token);
     let name = decodedHeader.Username;
@@ -44,14 +41,11 @@ export default function Navbar() {
       //redirect login page
       return navigate("/", { replace: true });
     }
-    // let decodedHeader = jwt_decode(token);
-    // console.log(decodedHeader.Username);
   }, []);
 
   const logoutHanlder = async () => {
     // remove token
     RemoveCookie("token");
-    // console.log(token)
 
     //redirect halaman login
     navigate("/", { replace: true });
@@ -108,7 +102,7 @@ export default function Navbar() {
                 role === "admin" && (
                   <li className="nav-item px-2">
                     <NavLink className="nav-link" to="/admin">
-                      Admin
+                      Dashboard
                     </NavLink>
                   </li>
                 )
