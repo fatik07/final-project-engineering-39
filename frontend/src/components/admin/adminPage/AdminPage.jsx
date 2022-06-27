@@ -5,12 +5,16 @@ import axios from "axios";
 import GetCookie from "../../../hooks/GetCookie";
 import jwt_decode from "jwt-decode";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 function AdminPage() {
   // const param = useParams();
   // console.log(param);
   const [toggleState, setToggleState] = useState(1);
   const [articles, setArticles] = useState([]);
+  const [mopen, setMopen] = useState(false);
   let navigate = useNavigate();
   const [data, setData] = useState({
     Judul: "",
@@ -37,18 +41,34 @@ function AdminPage() {
   // input data
   const submit = async (e) => {
     e.preventDefault();
+
     axios
-      .post("http://localhost:8008/Add", {
-        Judul: data.Judul,
-        Tanggal: data.Tanggal,
-        Id_Penulis: parseInt(data.Id_Penulis),
-        Deskripsi: data.Deskripsi,
-      },{withCredentials: true})
+      .post(
+        "http://localhost:8008/Add",
+        {
+          Judul: data.Judul,
+          Tanggal: data.Tanggal,
+          Id_Penulis: parseInt(data.Id_Penulis),
+          Deskripsi: data.Deskripsi,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setData({
+          Judul: "",
+          Tanggal: "",
+          Id_Penulis: "",
+          Deskripsi: "",
+        });
+      })
+      .finally(() => {
+        window.location.reload();
       });
   };
 
@@ -76,11 +96,40 @@ function AdminPage() {
   }, []);
 
   // edit data
-  // delete data
+  const handleUpdate = (id) => {
+    const updateData = articles.find((item) => item.id === id);
+    setData(updateData);
+    setMopen(true);
+  };
 
+  const updateModal = async (e) => {
+    e.preventDefault();
+
+    axios
+      .put(
+        "http://localhost:8008/Edit",
+        {
+          Judul: data.Judul,
+          Tanggal: data.Tanggal,
+          Id_Penulis: parseInt(data.Id_Penulis),
+          Deskripsi: data.Deskripsi,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setMopen(false);
+    window.location.reload();
+  };
+
+  // delete data
   const handleDelete = (id) => {
-    // const newDataDelete = articles.filter((item) => item.id !== id);
-    // setArticles(newDataDelete);
+    const newDataDelete = articles.filter((item) => item.id !== id);
+    setArticles(newDataDelete);
     axios
       .delete(`http://localhost:8008/Delete?id=${id}`, {
         withCredentials: true,
@@ -99,6 +148,102 @@ function AdminPage() {
 
   return (
     <>
+      <Modal
+        isOpen={mopen}
+        onRequestClose={() => setMopen(false)}
+        style={{
+          overlay: {
+            backgroun: "transparent !important",
+          },
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "50%",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            width: "60",
+          },
+        }}
+      >
+        <h1 className="text-center">Edit</h1>
+        <div className="row"></div>
+        <div className="col"></div>
+        <form onSubmit={updateModal}>
+          <div className="mb-2"></div>
+          <label htmlFor="inputJudul3" className="col-sm-3 col-form-label">
+            Judul
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="Judul"
+            name="Judul"
+            value={data.Judul}
+            onChange={(e) => handle(e)}
+          ></input>
+
+          <div className="mb-2"></div>
+          <label htmlFor="inputPenulis3" className="col-sm-3 col-form-label">
+            Tanggal
+          </label>
+          <input
+            type="date"
+            class="form-control"
+            id="Tanggal"
+            name="Tanggal"
+            value={setData.Tanggal}
+            onChange={(e) => handle(e)}
+          ></input>
+
+          <div className="mb-2"></div>
+          <label htmlFor="inputPenulis3" className="col-sm-3 col-form-label">
+            Penulis
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="Id_Penulis"
+            name="Id_Penulis"
+            value={setData.Id_Penulis}
+            placeholder="penulis"
+            onChange={(e) => handle(e)}
+          ></input>
+
+          <div className="mb-2"></div>
+          <label htmlFor="inputDeskripsi3" className="col-sm-3 col-form-label">
+            Deskripsi
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="Deskripsi"
+            name="Deskripsi"
+            value={setData.Deskripsi}
+            placeholder="deskripsi"
+            onChange={(e) => handle(e)}
+          ></input>
+
+          <div className="col-sm-3">
+            <input
+              type="submit"
+              className="btn btn-success-custom"
+              name="update"
+              value="Update"
+            />
+          </div>
+
+          <div className="mb-3">
+            <input
+              type="submit"
+              className="btn btn-secondary"
+              name="batal"
+              value="Batal"
+            />
+          </div>
+        </form>
+      </Modal>
+
       <div className="container">
         <div className="bloc-tabs">
           <button
@@ -149,7 +294,12 @@ function AdminPage() {
                       {/* <td>{article.deskripsi}</td> */}
                       <td>{article.deskripsi.substring(0, 15)}...</td>
                       <td>
-                        <button type="button" className="btn btn-warning me-2">
+                        <button
+                          type="button"
+                          className="btn btn-warning me-2"
+                          // onClick={() => setMopen(true)}
+                          onClick={() => handleUpdate(article.id)}
+                        >
                           Edit
                         </button>
                         <button
@@ -170,7 +320,12 @@ function AdminPage() {
                       <td>{article.deskripsi}</td>
                       {/* <td>{article.deskripsi.substring(0, 20)}...</td> */}
                       <td>
-                        <button type="button" className="btn btn-warning me-2">
+                        <button
+                          type="button"
+                          className="btn btn-warning me-2"
+                          // onClick={() => setMopen(true)}
+                          onClick={() => handleUpdate(article.id)}
+                        >
                           Edit
                         </button>
                         <button

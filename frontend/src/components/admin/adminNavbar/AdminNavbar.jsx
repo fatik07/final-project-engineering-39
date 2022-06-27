@@ -1,27 +1,38 @@
 import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import RemoveCookie from "../../../hooks/RemoveCookie";
 
+function AdminNavbar() {
+  let navigate = useNavigate();
+  const logoutHanlder = async () => {
+    // remove token
+    RemoveCookie("token");
+    // console.log(token)
 
-function AdminNavbar(){
-    return(
-        <>
-            <nav className="navbar fixed-top bg-light">
-                <div className="container-fluid">
-                    <div className="container-word">
-                        <span className="text-ladang fs-3">Ladang </span>
-                        <span className="text-materi fs-3">Materi</span>
-                    </div>
+    //redirect halaman login
+    navigate("/", { replace: true });
+  };
 
-                    <h3>Admin Page</h3>
+  return (
+    <>
+      <nav className="navbar fixed-top bg-light">
+        <div className="container-fluid">
+          <NavLink className="navbar-brand ms-5 navbar-brand-custom" to="/home">
+            <span className="text-ladang">Ladang </span>
+            <span className="text-materi">Materi</span>
+          </NavLink>
 
-                    <div className="container-nav">
-                        <a class="navbar-brand" href="#">Data Table</a>
-                        <a class="navbar-brand" href="#">Input Data</a>
-                        <a class="navbar-brand" href="#">Log Out</a>
-                    </div>
-                </div>
-            </nav>
-        </>
-    );
+          <h3>Admin Page</h3>
+
+          <div className="container-nav">
+            <button onClick={logoutHanlder} className="btn btn-danger btn-sm">
+              Logout
+            </button>
+          </div>
+        </div>
+      </nav>
+    </>
+  );
 }
 
 export default AdminNavbar;
