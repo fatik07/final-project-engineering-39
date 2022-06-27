@@ -98,7 +98,7 @@ var _ = Describe("api", func() {
 			bodyReader := strings.NewReader(`{"username": "nanda", "password": "nanda"}`)
 
 			w := httptest.NewRecorder()
-			r, err := http.NewRequest("POST", "/auth/login", bodyReader)
+			r, err := http.NewRequest("POST", "/Login", bodyReader)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -115,7 +115,7 @@ var _ = Describe("api", func() {
 			bodyReader := strings.NewReader(`{"username": "nanda", "password": "nanda123"}`)
 
 			w := httptest.NewRecorder()
-			r, err := http.NewRequest("POST", "/auth/login", bodyReader)
+			r, err := http.NewRequest("POST", "/Login", bodyReader)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -129,7 +129,7 @@ var _ = Describe("api", func() {
 			bodyReader := strings.NewReader(`{"username": "nanda123", "password": "nanda"}`)
 
 			w := httptest.NewRecorder()
-			r, err := http.NewRequest("POST", "/auth/login", bodyReader)
+			r, err := http.NewRequest("POST", "/Login", bodyReader)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -143,7 +143,7 @@ var _ = Describe("api", func() {
 			bodyReader := strings.NewReader(`{"username": "nanda123", "password": "nanda123"}`)
 
 			w := httptest.NewRecorder()
-			r, err := http.NewRequest("POST", "/auth/login", bodyReader)
+			r, err := http.NewRequest("POST", "/Login", bodyReader)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -155,7 +155,7 @@ var _ = Describe("api", func() {
 	When("Register Test", func() {
 		It("should return message register success", func() {
 			bodyReader := strings.NewReader(`{"nama": "user_test_1233","username": "user_test_1232", "password": "user_test1232", "Mail" : "user_test_123z2@email.com"}`)
-			r, err := http.NewRequest("POST", "/auth/register", bodyReader)
+			r, err := http.NewRequest("POST", "/RegisterAdmin", bodyReader)
 			w := httptest.NewRecorder()
 			if err != nil {
 				log.Fatal(err)
@@ -179,7 +179,7 @@ var _ = Describe("api", func() {
 	When("Register admin Test", func() {
 		It("should return message register admin success", func() {
 			bodyReader := strings.NewReader(`{"nama": "user_test_1233","username": "user_test_1232", "password": "user_test1232", "Mail" : "user_test_123z2@email.com"}`)
-			r, err := http.NewRequest("POST", "/auth/register-admin", bodyReader)
+			r, err := http.NewRequest("POST", "/RegisterAdmin", bodyReader)
 			w := httptest.NewRecorder()
 			if err != nil {
 				log.Fatal(err)
@@ -211,7 +211,7 @@ var _ = Describe("api", func() {
 			userAdmin := repository.NewTaskRepo(db)
 
 			route := api.NewAPI(*userRepo, *userAdmin).Handler()
-			r, err := http.NewRequest("POST", "/auth/logout", nil)
+			r, err := http.NewRequest("POST", "/Logout", nil)
 			w := httptest.NewRecorder()
 			if err != nil {
 				log.Fatal(err)
