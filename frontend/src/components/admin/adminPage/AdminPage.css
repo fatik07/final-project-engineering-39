@@ -1,6 +1,6 @@
-.container {
+/* .container {
   margin-top: 3rem;
-}
+} */
 
 #right {
   float: right;
@@ -18,21 +18,21 @@
   padding: 0;
 }
 
-body {
+/* body {
   background: #fff;
-}
+} */
 
-.container {
+/* .container {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 1000px;
   height: 600px;
   background: #f1f1f1;
-  /* margin: 100px auto 0; */
+  
   word-break: break-all;
   border: 1px solid rgba(0, 0, 0, 0.274);
-}
+} */
 
 .bloc-tabs {
   display: flex;

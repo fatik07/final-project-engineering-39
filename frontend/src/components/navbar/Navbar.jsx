@@ -22,7 +22,10 @@ export default function Navbar() {
 
   // const token = localStorage.getItem("token");
   const token = GetCookie("token");
-
+  // console.log(cek);
+  // ambil data dengan jwt token
+  // let decodedHeader = jwt_decode(token);
+  // console.log(decodedHeader);
   useEffect(() => {
     let decodedHeader = jwt_decode(token);
     let name = decodedHeader.Username;
@@ -41,6 +44,8 @@ export default function Navbar() {
       //redirect login page
       return navigate("/", { replace: true });
     }
+    // let decodedHeader = jwt_decode(token);
+    // console.log(decodedHeader.Username);
   }, []);
 
   const logoutHanlder = async () => {

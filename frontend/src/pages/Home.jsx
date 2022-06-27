@@ -6,9 +6,21 @@ import Header from "../components/header/Header";
 import Navbar from "../components/navbar/Navbar";
 import Sponsor from "../components/sponsor/Sponsor";
 import axios from "axios";
+import GetCookie from "../hooks/GetCookie";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [articles, setArticles] = useState([]);
+  let navigate = useNavigate();
+
+  const checkToken = GetCookie("token");
+  useEffect(() => {
+    if (checkToken) {
+      navigate("/home");
+    } else {
+      navigate(-1, { replace: true });
+    }
+  }, []);
 
   useEffect(() => {
     const fetchArticle = async () => {

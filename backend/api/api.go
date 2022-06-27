@@ -21,15 +21,21 @@ func NewAPI(userRepo repository.UserRepo, adminRepo repository.AdminRepo) *API {
 		adminRepo: adminRepo,
 		gin:       gin,
 	}
+
 	//User//
 	gin.Any("/Login", api.Login)
 	gin.Any("/Register", api.Register)
 	gin.POST("/Logout", api.AuthMiddleWare(api.Logout))
-	gin.Use(cors.Default())
+	gin.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"},
+		AllowCredentials: true,
+	}))
 	//admin//
 	gin.Any("/RegisterAdmin", api.RegisterAdmin)
 	gin.PUT("/Edit", api.AuthMiddleWare(api.AdminMiddleware(api.UpdateTask)))
-	gin.Any("/Add", api.AuthMiddleWare(api.AdminMiddleware(api.CreateTask)))
+	gin.POST("/Add", api.AuthMiddleWare(api.AdminMiddleware(api.CreateTask)))
 	gin.DELETE("/Delete", api.AuthMiddleWare(api.AdminMiddleware(api.DeleteTask)))
 	gin.GET("/GetPenulis", api.AuthMiddleWare(api.AdminMiddleware(api.Get_Penulis)))
 	gin.GET("/Get", api.AuthMiddleWare(api.GetTask))
